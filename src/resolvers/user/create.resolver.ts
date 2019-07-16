@@ -13,7 +13,9 @@ export class CreateUserResolver {
     const salt = await genSalt(10);
     const hashPass = await hash(data.password, salt);
     const user = await UserModel.create({ ...data, password: hashPass });
-    const token = await jwt.sign({ userId: user.id }, 'secreat');
+    const token = await jwt.sign({ userId: user.id }, 'secreat', {
+      expiresIn: '48hr',
+    });
     console.log(token);
     return { token };
   }

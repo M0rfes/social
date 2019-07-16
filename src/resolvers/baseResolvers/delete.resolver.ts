@@ -19,8 +19,8 @@ export function DeleteResolver<T extends ClassType, X extends ClassType>(
   class BaseResolver {
     @Mutation(() => returnType, { name: `delete${suffix}` })
     @UseMiddleware(...(middleware || []))
-    async delete(@Arg('data', () => inputType) data: X) {
-      return await entity.findByIdAndDelete(data);
+    async delete(@Arg('data', () => inputType) { id }: any) {
+      return await entity.findByIdAndDelete(id);
     }
   }
 

@@ -1,8 +1,9 @@
 import { InputType, Field } from 'type-graphql';
-import { Length, IsDate, IsEmail } from 'class-validator';
+import { Length, IsDate, IsEmail, IsEnum } from 'class-validator';
 import { User } from '../../models/user.model';
 import { IsEmailUnique } from '../../util/isEmailUnique.validator';
 import { IsDisplayNameUnique } from '../../util/isDisplayNameUnique.validator';
+import { Gender } from '../../enums/genders.enum';
 // import { hasPassword } from '../../middlewares/hasPassword.middleware';
 
 @InputType()
@@ -16,12 +17,12 @@ export class RegisterInput implements Partial<User> {
   lastName: string;
 
   @Length(2, 255)
-  @IsDisplayNameUnique()
+  @IsDisplayNameUnique({ message: 'display name already in use' })
   @Field()
   displayName: string;
 
   @IsEmail()
-  @IsEmailUnique()
+  @IsEmailUnique({ message: 'Email already in use' })
   @Field()
   email: string;
 
@@ -33,4 +34,8 @@ export class RegisterInput implements Partial<User> {
   @IsDate()
   @Field(() => Date, { nullable: true })
   DOB?: Date;
+
+  @IsEnum(Gender)
+  @Field(() => Gender, { nullable: true })
+  gender?: Gender;
 }

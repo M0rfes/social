@@ -1,6 +1,7 @@
-import { prop, Typegoose } from 'typegoose';
+import { prop, Typegoose, Ref, arrayProp } from 'typegoose';
 import { ObjectType, Field, ID, Root } from 'type-graphql';
 import { Schema } from 'mongoose';
+import { Gender } from '../enums/genders.enum';
 @ObjectType()
 export class User extends Typegoose {
   @Field(() => ID)
@@ -26,13 +27,29 @@ export class User extends Typegoose {
   password: string;
 
   @Field(() => Date, { nullable: true })
-  @prop() // YYYY-MM-DD
+  @prop({ default: null }) // YYYY-MM-DD
   readonly DOB?: Date;
 
   @Field()
   name(@Root() { _doc: doc }: { _doc: User }): string {
     return `${doc.firstName} ${doc.lastName}`;
   }
+
+  @Field(() => Gender)
+  @prop({ enum: Gender, default: Gender.unspecified })
+  gender?: Gender;
+
+  @Field(() => [User], { defaultValue: [] })
+  @arrayProp({ itemsRef: User, default: [] })
+  following: Ref<User>[];
+
+  @Field()
+  numOfFollowing(@Root() { _doc: doc }: { _doc: User }): number {
+    return doc.following.length;
+  }
+
+  @Field(() => [User])
+  followers: Ref<User>[];
 }
 
 export const UserModel = new User().getModelForClass(User, {
