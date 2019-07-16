@@ -1,9 +1,14 @@
-import { ClassType, Resolver, UseMiddleware, Arg } from 'type-graphql';
+import {
+  ClassType,
+  Resolver,
+  UseMiddleware,
+  Arg,
+  Mutation,
+} from 'type-graphql';
 import { Middleware } from 'type-graphql/dist/interfaces/Middleware';
 import { Model } from 'mongoose';
-import { Query } from 'type-graphql';
 
-export function findOneResolver<T extends ClassType, X extends ClassType>(
+export function DeleteResolver<T extends ClassType, X extends ClassType>(
   suffix: string,
   returnType: T,
   inputType: X,
@@ -12,10 +17,10 @@ export function findOneResolver<T extends ClassType, X extends ClassType>(
 ) {
   @Resolver()
   class BaseResolver {
-    @Query(() => returnType, { name: `find${suffix}` })
+    @Mutation(() => returnType, { name: `delete${suffix}` })
     @UseMiddleware(...(middleware || []))
-    async findOne(@Arg('data', () => inputType) data: X) {
-      return await entity.findOne(data);
+    async delete(@Arg('data', () => inputType) data: X) {
+      return await entity.findByIdAndDelete(data);
     }
   }
 

@@ -8,24 +8,29 @@ import { auth } from '../../middlewares/auth.middleware';
 
 @Resolver(User)
 export class UserResolver {
-  @Query(() => User)
-  async login(@Arg('data') data: LoginInput, @Ctx() { req }: MyContext) {
-    const user = await UserModel.findOne(data);
+  @Query(() => User, { nullable: true })
+  async login(
+    @Arg('data') { email, password }: LoginInput,
+    @Ctx() { req }: MyContext,
+  ) {
+    const user = await UserModel.findOne({ email });
+    console.log(user, password);
     if (!user) {
       return null;
     }
-    const isMatch = await compare(data.password, user.password);
+    const isMatch = await compare(password, user.password);
     if (!isMatch) {
       return null;
     }
     req.session!.userId = user.id;
+    console.log(req.session);
     return user;
   }
 
   @UseMiddleware(auth)
   @Query(() => User)
   async me(@Ctx() { req }: MyContext) {
-    return await UserModel.findById(req.session!.userId);
+    return await UserModel.findById((req as any).userId);
   }
 
   @UseMiddleware(auth)
