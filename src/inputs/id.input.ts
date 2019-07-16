@@ -3,7 +3,7 @@ import { User } from '../models/user.model';
 import { Schema } from 'mongoose';
 
 @InputType()
-export class DeleteInput implements Partial<User> {
+export class IDInput implements Partial<User> {
   @Field(() => ID)
   id: Schema.Types.ObjectId;
 }

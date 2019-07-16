@@ -29,12 +29,6 @@ export class User extends Typegoose {
   @Field(() => Date, { nullable: true })
   @prop({ default: null }) // YYYY-MM-DD
   readonly DOB?: Date;
-
-  @Field()
-  name(@Root() { _doc: doc }: { _doc: User }): string {
-    return `${doc.firstName} ${doc.lastName}`;
-  }
-
   @Field(() => Gender)
   @prop({ enum: Gender, default: Gender.unspecified })
   gender?: Gender;
@@ -43,13 +37,18 @@ export class User extends Typegoose {
   @arrayProp({ itemsRef: User, default: [] })
   following: Ref<User>[];
 
+  @Field(() => [User])
+  followers: Ref<User>[];
+
   @Field()
   numOfFollowing(@Root() { _doc: doc }: { _doc: User }): number {
     return doc.following.length;
   }
 
-  @Field(() => [User])
-  followers: Ref<User>[];
+  @Field()
+  name(@Root() { _doc: doc }: { _doc: User }): string {
+    return `${doc.firstName} ${doc.lastName}`;
+  }
 }
 
 export const UserModel = new User().getModelForClass(User, {

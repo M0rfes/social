@@ -16,7 +16,6 @@ export class CreateUserResolver {
     const token = await jwt.sign({ userId: user.id }, 'secreat', {
       expiresIn: '48hr',
     });
-    console.log(token);
     return { token };
   }
 }

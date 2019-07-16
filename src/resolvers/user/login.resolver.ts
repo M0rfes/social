@@ -10,7 +10,6 @@ export class LoginResolver {
   @Query(() => Token, { nullable: true })
   async login(@Arg('data') { email, password }: LoginInput) {
     const user = await UserModel.findOne({ email });
-    console.log(user, password);
     if (!user) {
       return null;
     }
@@ -21,7 +20,6 @@ export class LoginResolver {
     const token = await jwt.sign({ userId: user.id }, 'secreat', {
       expiresIn: '48hr',
     });
-    console.log(token);
     return { token };
   }
 }

@@ -1,10 +1,10 @@
 import {
-  Resolver,
-  Query,
   Ctx,
-  UseMiddleware,
   FieldResolver,
+  Query,
   Root,
+  Resolver,
+  UseMiddleware,
   Int,
 } from 'type-graphql';
 import { User } from '../../models/user.model';
@@ -14,7 +14,7 @@ import { auth } from '../../middlewares/auth.middleware';
 @Resolver(User)
 export class UserResolver {
   @UseMiddleware(auth)
-  @Query(() => User)
+  @Query(() => User, { nullable: true })
   async me(@Ctx() { req }: MyContext) {
     return await UserModel.findById((req as any).userId);
   }
@@ -27,8 +27,8 @@ export class UserResolver {
   }
   @UseMiddleware(auth)
   @FieldResolver(() => [User])
-  async followers(@Root() { _doc: user }: { _doc: User }) {
-    const f = await UserModel.find({ following: user.id });
+  async followers(@Root() { _doc: user }: { _doc: any }) {
+    const f = await UserModel.find({ following: user._id });
     return f;
   }
 

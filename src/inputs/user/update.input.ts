@@ -6,27 +6,27 @@ import { IsDisplayNameUnique } from '../../util/isDisplayNameUnique.validator';
 import { Gender } from '../../enums/genders.enum';
 
 @InputType()
-export class RegisterInput implements Partial<User> {
+export class UpdateInput implements Partial<User> {
   @Length(2, 255)
-  @Field()
+  @Field({ nullable: true })
   firstName: string;
 
   @Length(2, 255)
-  @Field()
+  @Field({ nullable: true })
   lastName: string;
 
   @Length(2, 255)
   @IsDisplayNameUnique({ message: 'display name already in use' })
-  @Field()
+  @Field({ nullable: true })
   displayName: string;
 
   @IsEmail()
   @IsEmailUnique({ message: 'Email already in use' })
-  @Field()
+  @Field({ nullable: true })
   email: string;
 
   @Length(6, 255)
-  @Field()
+  @Field({ nullable: true })
   password: string;
 
   @IsDate()

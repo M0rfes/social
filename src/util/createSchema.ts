@@ -1,10 +1,13 @@
 import { Query, Resolver, buildSchema } from 'type-graphql';
 import { UserResolver } from '../resolvers/user/user.resolver';
 import { CreateUserResolver } from '../resolvers/user/create.resolver';
-import { FIndOneUser as FindOneUser } from '../resolvers/user/findOne.resolver';
+import { FindOneUser } from '../resolvers/user/findOne.resolver';
 import { FindUser } from '../resolvers/user/find.resolver';
 import { LoginResolver } from '../resolvers/user/login.resolver';
 import { DeleteUser } from '../resolvers/user/delete.resolver';
+import { FollowResolver } from '../resolvers/user/Follow.resolver';
+import { UnFallowResolver } from '../resolvers/user/unFollow.resolver';
+import { UpdateUserResolver } from '../resolvers/user/update.resolver';
 
 @Resolver()
 class HelloResolver {
@@ -24,5 +27,8 @@ export const createSchema = () =>
       FindUser,
       LoginResolver,
       DeleteUser,
+      FollowResolver,
+      UnFallowResolver,
+      UpdateUserResolver,
     ],
   });

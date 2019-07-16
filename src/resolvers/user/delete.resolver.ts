@@ -1,8 +1,8 @@
 import { User, UserModel } from '../../models/user.model';
 import { auth } from '../../middlewares/auth.middleware';
 import { DeleteResolver } from '../baseResolvers/delete.resolver';
-import { DeleteInput } from '../../inputs/delete.user';
+import { IDInput } from '../../inputs/id.input';
 
-export const DeleteUser = DeleteResolver('User', User, DeleteInput, UserModel, [
+export const DeleteUser = DeleteResolver('User', User, IDInput, UserModel, [
   auth,
 ]);
