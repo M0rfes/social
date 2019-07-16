@@ -1,8 +1,9 @@
 import { InputType, Field } from 'type-graphql';
 import { Length, IsDate, IsEmail } from 'class-validator';
-import { User } from '../models/user.model';
-import { IsEmailUnique } from '../util/isEmailUnique.validator';
-import { IsDisplayNameUnique } from '../util/isDisplayNameUnique.validator';
+import { User } from '../../models/user.model';
+import { IsEmailUnique } from '../../util/isEmailUnique.validator';
+import { IsDisplayNameUnique } from '../../util/isDisplayNameUnique.validator';
+// import { hasPassword } from '../../middlewares/hasPassword.middleware';
 
 @InputType()
 export class RegisterInput implements Partial<User> {
@@ -26,6 +27,7 @@ export class RegisterInput implements Partial<User> {
 
   @Length(6, 255)
   @Field()
+  // @hasPassword()
   password: string;
 
   @IsDate()

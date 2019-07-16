@@ -1,7 +1,6 @@
 import { prop, Typegoose } from 'typegoose';
-import { ObjectType, Field, ID } from 'type-graphql';
+import { ObjectType, Field, ID, Root } from 'type-graphql';
 import { Schema } from 'mongoose';
-
 @ObjectType()
 export class User extends Typegoose {
   @Field(() => ID)
@@ -24,11 +23,16 @@ export class User extends Typegoose {
   readonly email: string;
 
   @prop({ required: true })
-  readonly password: string;
+  password: string;
 
   @Field(() => Date, { nullable: true })
   @prop() // YYYY-MM-DD
   readonly DOB?: Date;
+
+  @Field()
+  name(@Root() { _doc: doc }: { _doc: User }): string {
+    return `${doc.firstName} ${doc.lastName}`;
+  }
 }
 
 export const UserModel = new User().getModelForClass(User, {
