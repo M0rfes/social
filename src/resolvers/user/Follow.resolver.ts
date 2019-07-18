@@ -14,7 +14,7 @@ export class FollowResolver {
       return false;
     }
     const user = await UserModel.findById(uid);
-    if (!user) {
+    if (!user || user.following.includes(id)) {
       return false;
     }
     user.following.push(id);

@@ -8,6 +8,7 @@ import { DeleteUser } from '../resolvers/user/delete.resolver';
 import { FollowResolver } from '../resolvers/user/Follow.resolver';
 import { UnFallowResolver } from '../resolvers/user/unFollow.resolver';
 import { UpdateUserResolver } from '../resolvers/user/update.resolver';
+import { CreatePostResolver } from '../resolvers/post/create.resolver';
 
 @Resolver()
 class HelloResolver {
@@ -30,5 +31,6 @@ export const createSchema = () =>
       FollowResolver,
       UnFallowResolver,
       UpdateUserResolver,
+      CreatePostResolver,
     ],
   });

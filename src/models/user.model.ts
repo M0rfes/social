@@ -1,8 +1,8 @@
 import { prop, Typegoose, Ref, arrayProp, pre } from 'typegoose';
 import { ObjectType, Field, ID, Root } from 'type-graphql';
-import { Schema } from 'mongoose';
 import { Gender } from '../enums/genders.enum';
 import { genSalt, hash } from 'bcryptjs';
+import { Post } from './post.model';
 @pre<User>('save', function(next) {
   if (!this.isModified('password')) {
     next();
@@ -17,7 +17,7 @@ import { genSalt, hash } from 'bcryptjs';
 @ObjectType()
 export class User extends Typegoose {
   @Field(() => ID)
-  readonly id: Schema.Types.ObjectId;
+  readonly id: Ref<User>;
 
   @Field()
   @prop({ required: true })
@@ -45,12 +45,15 @@ export class User extends Typegoose {
   @prop({ enum: Gender, default: Gender.unspecified })
   gender?: Gender;
 
-  @Field(() => [User], { defaultValue: [] })
-  @arrayProp({ itemsRef: User, default: [] })
+  @Field(() => [User])
+  @arrayProp({ itemsRef: User })
   following: Ref<User>[];
 
   @Field(() => [User])
   followers: Ref<User>[];
+
+  @Field(() => [Post])
+  post: [Post];
 
   @Field()
   numOfFollowing(@Root() { _doc: doc }: { _doc: User }): number {

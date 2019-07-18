@@ -7,6 +7,7 @@ import {
 } from 'type-graphql';
 import { Middleware } from 'type-graphql/dist/interfaces/Middleware';
 import { Model } from 'mongoose';
+import { Ctx } from 'type-graphql';
 
 export function createResolver<T extends ClassType, X extends ClassType>(
   suffix: string,
@@ -19,8 +20,13 @@ export function createResolver<T extends ClassType, X extends ClassType>(
   class BaseResolver {
     @Mutation(() => returnType, { name: `create${suffix}` })
     @UseMiddleware(...(middleware || []))
-    async create(@Arg('data', () => inputType) data: X) {
-      return await entity.create(data);
+    async create(@Arg('data', () => inputType) data: any, @Ctx() { req }: any) {
+      if (!middleware) {
+        const e = new entity(data);
+        return await e.save();
+      }
+      const ent = new entity({ from: req.userId, ...data });
+      return await ent.save();
     }
   }
 
