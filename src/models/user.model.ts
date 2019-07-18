@@ -1,7 +1,19 @@
-import { prop, Typegoose, Ref, arrayProp } from 'typegoose';
+import { prop, Typegoose, Ref, arrayProp, pre } from 'typegoose';
 import { ObjectType, Field, ID, Root } from 'type-graphql';
 import { Schema } from 'mongoose';
 import { Gender } from '../enums/genders.enum';
+import { genSalt, hash } from 'bcryptjs';
+@pre<User>('save', function(next) {
+  if (!this.isModified('password')) {
+    next();
+  }
+  genSalt(10)
+    .then(salt => hash(this.password, salt))
+    .then(has => {
+      this.password = has;
+      next();
+    });
+})
 @ObjectType()
 export class User extends Typegoose {
   @Field(() => ID)
@@ -27,7 +39,7 @@ export class User extends Typegoose {
   password: string;
 
   @Field(() => Date, { nullable: true })
-  @prop({ default: null }) // YYYY-MM-DD
+  @prop() // YYYY-MM-DD
   readonly DOB?: Date;
   @Field(() => Gender)
   @prop({ enum: Gender, default: Gender.unspecified })
