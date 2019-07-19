@@ -50,14 +50,20 @@ export class User extends Typegoose {
   following: Ref<User>[];
 
   @Field(() => [User])
+  @arrayProp({ itemsRef: User })
   followers: Ref<User>[];
 
   @Field(() => [Post])
-  post: [Post];
+  posts: [Post];
 
   @Field()
   numOfFollowing(@Root() { _doc: doc }: { _doc: User }): number {
     return doc.following.length;
+  }
+
+  @Field()
+  numOfFollowers(@Root() { _doc: doc }: { _doc: User }): number {
+    return doc.followers.length;
   }
 
   @Field()

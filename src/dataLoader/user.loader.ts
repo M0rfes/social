@@ -4,9 +4,8 @@ import { Ref } from 'typegoose';
 
 type BU = (ids: Ref<User>[]) => Promise<User[]>;
 const batchUsers: BU = async ids => {
-  const users = await UserModel.find()
-    .where('_id')
-    .in(ids);
+  const users = await UserModel.find({ _id: ids });
+
   const userMap: { [key: string]: User } = {};
   users.forEach(user => {
     userMap[user._id] = user;

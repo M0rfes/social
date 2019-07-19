@@ -5,7 +5,6 @@ import {
   Root,
   Resolver,
   UseMiddleware,
-  Int,
 } from 'type-graphql';
 import { User, UserModel } from '../../models/user.model';
 import { MyContext } from '../../shared/myContext';
@@ -18,7 +17,6 @@ export class UserResolver {
   async me(@Ctx() { req }: MyContext) {
     return await UserModel.findById((req as any).userId);
   }
-  // TODO: find a better way to resolve follower
   @UseMiddleware(auth)
   @FieldResolver(() => [User])
   async following(
@@ -28,25 +26,22 @@ export class UserResolver {
     const f = await userLoader.loadMany(user.following);
     return f;
   }
+
   @UseMiddleware(auth)
   @FieldResolver(() => [User])
-  async followers(@Root() { _doc: user }: { _doc: any }) {
-    const users = await UserModel.find()
-      .where('following')
-      .equals(user._id);
-    return users;
-  }
+  async followers(
+    @Root() { _doc: user }: { _doc: User },
+    @Ctx() { userLoader }: MyContext,
+  ) {
+    const users = await userLoader.loadMany(user.followers);
 
-  @FieldResolver(() => Int)
-  async numOfFollowers(@Root() { _doc: user }: { _doc: any }): Promise<number> {
-    const u = await UserModel.find({ following: user._id }).count();
-    return u;
+    return users;
   }
 
   @UseMiddleware(auth)
   @FieldResolver(() => [Post])
-  async post(@Ctx() { req }: MyContext) {
-    const posts = await PostModel.find({ from: (req as any).id });
+  async posts(@Root() { _doc: { _id } }: { _doc: { _id: any } }) {
+    const posts = await PostModel.find({ from: _id.toString() });
     return posts;
   }
   @UseMiddleware(auth)

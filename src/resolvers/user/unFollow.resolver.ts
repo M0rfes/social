@@ -14,11 +14,14 @@ export class UnFallowResolver {
   ) {
     const uid = (req as any).userId;
     const user = await UserModel.findById(uid);
-    if (!user) {
+    const Ouser = await UserModel.findById(id);
+    if (!user || !Ouser) {
       return false;
     }
-    user.updateOne({}, { $pull: { following: id } });
-    user.save();
+    await user.updateOne({}, { $pull: { following: id } });
+    await Ouser.updateOne({}, { $pull: { followers: uid } });
+    await user.save();
+    await Ouser.save();
     return true;
   }
 }

@@ -21,5 +21,5 @@ export class Post extends Typegoose {
 }
 
 export const PostModel = new Post().getModelForClass(Post, {
-  schemaOptions: { collection: 'post' },
+  schemaOptions: { collection: 'posts' },
 });

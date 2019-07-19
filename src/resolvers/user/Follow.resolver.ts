@@ -14,10 +14,13 @@ export class FollowResolver {
       return false;
     }
     const user = await UserModel.findById(uid);
-    if (!user || user.following.includes(id)) {
+    const Ouser = await UserModel.findById(id);
+    if (!user || !Ouser || user.following.includes(id)) {
       return false;
     }
     user.following.push(id);
+    Ouser.followers.push(uid as any);
+    Ouser.save();
     user.save();
     return true;
   }
