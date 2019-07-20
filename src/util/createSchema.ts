@@ -12,6 +12,8 @@ import { CreatePostResolver } from '../resolvers/post/create.resolver';
 import { UpdatePostResolver } from '../resolvers/post/update.resolver';
 import { DeletePostResolver } from '../resolvers/post/delete.resolver';
 import { FindPostResolver } from '../resolvers/post/find.resolver';
+import { FindOnePostResolver } from '../resolvers/post/findOne.resolver';
+import { ProfilePictureResolver } from '../resolvers/user/profilePitcher.resolver';
 
 @Resolver()
 class HelloResolver {
@@ -37,6 +39,13 @@ export const createSchema = () =>
       CreatePostResolver,
       UpdatePostResolver,
       DeletePostResolver,
-      FindPostResolver
+      FindPostResolver,
+      FindOnePostResolver,
+      ProfilePictureResolver,
+
     ],
   });
+
+
+
+'{"query":"mutation AddProfilePitcher($pic: Upload){\n  addProfilePicture(picture:$pic)\n}"}'

@@ -4,7 +4,7 @@ import { Post, PostModel } from '../../models/post.model';
 import { FindPostInput } from '../../inputs/post/find.input';
 
 export const FindPostResolver = findResolver(
-  'Post',
+  'Posts',
   Post,
   FindPostInput,
   PostModel,

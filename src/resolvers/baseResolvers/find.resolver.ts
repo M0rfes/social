@@ -16,7 +16,7 @@ export function findResolver<T extends ClassType, X extends ClassType>(
     @Query(() => [returnType], { name: `find${suffix}` })
     @UseMiddleware(...(middleware || []))
     async find(
-      @Arg('data', () => inputType, { nullable: true }) data: X,
+      @Arg('data', () => inputType, {nullable: true }) data: X,
       @Arg('pagination', () => PaginationInput, { nullable: true }) pagination: PaginationInput
     ) {
       if (!!data) {

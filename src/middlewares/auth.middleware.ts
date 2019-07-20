@@ -7,6 +7,7 @@ export const auth: MiddlewareFn<MyContext> = async (
   next,
 ) => {
   const token = req.header('x-auth-token');
+  
   if (!token) {
     throw new Error('unauthorize');
   }
