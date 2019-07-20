@@ -4,16 +4,16 @@ import { InputType, Field, ID } from 'type-graphql';
 import { Post } from '../../models/post.model';
 
 @InputType()
-export class FindPost implements Partial<Post> {
+export class FindPostInput implements Partial<Post> {
   @Field(() => ID, { nullable: true })
   readonly id: Ref<Post>;
 
   @Field({ nullable: true })
   readonly body: string;
 
-  @Field(() => Post, { nullable: true })
+  @Field(() => ID, { nullable: true })
   to: Ref<Post>;
 
-  @Field(() => User, { nullable: true })
+  @Field(() => ID, { nullable: true })
   from: Ref<User>;
 }

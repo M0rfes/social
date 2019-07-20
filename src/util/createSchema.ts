@@ -11,6 +11,7 @@ import { UpdateUserResolver } from '../resolvers/user/update.resolver';
 import { CreatePostResolver } from '../resolvers/post/create.resolver';
 import { UpdatePostResolver } from '../resolvers/post/update.resolver';
 import { DeletePostResolver } from '../resolvers/post/delete.resolver';
+import { FindPostResolver } from '../resolvers/post/find.resolver';
 
 @Resolver()
 class HelloResolver {
@@ -36,5 +37,6 @@ export const createSchema = () =>
       CreatePostResolver,
       UpdatePostResolver,
       DeletePostResolver,
+      FindPostResolver
     ],
   });

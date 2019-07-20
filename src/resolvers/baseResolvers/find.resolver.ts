@@ -1,7 +1,8 @@
-import { ClassType, Resolver, UseMiddleware, Arg, Int } from 'type-graphql';
+import { ClassType, Resolver, UseMiddleware, Arg } from 'type-graphql';
 import { Middleware } from 'type-graphql/dist/interfaces/Middleware';
 import { Model } from 'mongoose';
 import { Query } from 'type-graphql';
+import { PaginationInput } from '../../inputs/pagination.input';
 
 export function findResolver<T extends ClassType, X extends ClassType>(
   suffix: string,
@@ -16,12 +17,12 @@ export function findResolver<T extends ClassType, X extends ClassType>(
     @UseMiddleware(...(middleware || []))
     async find(
       @Arg('data', () => inputType, { nullable: true }) data: X,
-      @Arg('limit', () => Int, { nullable: true }) limit: number,
+      @Arg('pagination', () => PaginationInput, { nullable: true }) pagination: PaginationInput
     ) {
       if (!!data) {
-        return await entity.find(data).limit(limit);
+        return await entity.find(data, {}, pagination);
       }
-      const users = await entity.find().limit(limit);
+      const users = await entity.find({}, {}, pagination);
       return users;
     }
   }
