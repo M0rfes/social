@@ -17,7 +17,7 @@ export function createResolver<T extends ClassType, X extends ClassType>(
   entity: Model<InstanceType<T>, {}> & T,
   middleware?: Middleware<any>[],
 ) {
-  @Resolver()
+  @Resolver(returnType)
   class BaseResolver {
     @Mutation(() => returnType, { name: `create${suffix}` })
     @UseMiddleware(...(middleware || []))
@@ -26,7 +26,7 @@ export function createResolver<T extends ClassType, X extends ClassType>(
         const e = new entity(data);
         return await e.save();
       }
-      const ent = new entity({ from:mongoose.Types.ObjectId(req.userId), ...data });
+      const ent = new entity({ from: mongoose.Types.ObjectId(req.userId), ...data });
       return await ent.save();
     }
   }

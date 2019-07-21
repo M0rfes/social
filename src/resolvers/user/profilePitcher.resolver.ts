@@ -4,9 +4,10 @@ import { createWriteStream } from "fs";
 import { Upload } from '../../util/upload';
 import path from 'path';
 import { auth } from '../../middlewares/auth.middleware';
+import { User } from '../../models/user.model';
 
 
-@Resolver()
+@Resolver(User)
 export class ProfilePictureResolver {
   @UseMiddleware(auth)
   @Mutation(() => String, { nullable: true })

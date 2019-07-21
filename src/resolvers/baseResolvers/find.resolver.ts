@@ -11,7 +11,7 @@ export function findResolver<T extends ClassType, X extends ClassType>(
   entity: Model<InstanceType<T>, {}> & T,
   middleware?: Middleware<any>[],
 ) {
-  @Resolver()
+  @Resolver(returnType)
   class BaseResolver {
     @Query(() => [returnType], { name: `find${suffix}` })
     @UseMiddleware(...(middleware || []))

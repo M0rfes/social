@@ -16,7 +16,7 @@ export function updateResolver<T extends ClassType, X extends ClassType>(
   entity: Model<InstanceType<T>, {}> & T,
   middleware?: Middleware<any>[],
 ) {
-  @Resolver()
+  @Resolver(returnType)
   class BaseResolver {
     @Mutation(() => returnType, { name: `update${suffix}`, nullable: true })
     @UseMiddleware(...(middleware || []))

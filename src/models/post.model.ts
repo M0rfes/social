@@ -1,8 +1,7 @@
-import { ObjectType, Field, ID } from 'type-graphql';
-import { Typegoose, prop, Ref } from 'typegoose';
+import { ObjectType, Field, ID, Int, Root } from 'type-graphql';
+import { Typegoose, prop, Ref, arrayProp } from 'typegoose';
 import { User } from './user.model';
 import { MediaModel } from './media.model';
-import { Interactions } from './interactio';
 
 @ObjectType()
 export class Post extends Typegoose {
@@ -23,13 +22,31 @@ export class Post extends Typegoose {
 
   @Field(() => MediaModel, { nullable: true })
   @prop()
-  media?: MediaModel
+  media?: MediaModel;
 
-  @Field(() => Interactions, { nullable: true })
-  interactions?: Interactions
+  @Field(() => [User])
+  @arrayProp({ itemsRef: typeof User })
+  upVote: Ref<User>[];
+
+  @Field(() => [User])
+  @arrayProp({ itemsRef: typeof User })
+  downVote: Ref<User>[];
+
+  @Field()
+  @prop({ default: Date.now() })
+  createdAt: Date;
+
+  @Field(() => Int)
+  totalUpVotes(@Root() { _doc }: { _doc: Post }) {
+    return _doc.upVote.length;
+  }
+
+  @Field(() => Int)
+  totalDownVotes(@Root() { _doc }: { _doc: Post }) {
+    return _doc.downVote.length;
+  }
 }
 
 export const PostModel = new Post().getModelForClass(Post, {
   schemaOptions: { collection: 'posts' },
 });
-

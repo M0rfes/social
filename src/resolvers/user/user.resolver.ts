@@ -10,6 +10,9 @@ import { User, UserModel } from '../../models/user.model';
 import { MyContext } from '../../shared/myContext';
 import { auth } from '../../middlewares/auth.middleware';
 import { Post, PostModel } from '../../models/post.model';
+import { Ref } from 'typegoose';
+import { Arg } from 'type-graphql';
+import { PaginationInput } from '../../inputs/pagination.input';
 @Resolver(User)
 export class UserResolver {
   @UseMiddleware(auth)
@@ -17,7 +20,7 @@ export class UserResolver {
   async me(@Ctx() { req }: MyContext) {
     return await UserModel.findById((req as any).userId);
   }
-  @UseMiddleware(auth)
+
   @FieldResolver(() => [User])
   async following(
     @Root() { _doc: user }: { _doc: User },
@@ -27,7 +30,6 @@ export class UserResolver {
     return f;
   }
 
-  @UseMiddleware(auth)
   @FieldResolver(() => [User])
   async followers(
     @Root() { _doc: user }: { _doc: User },
@@ -40,8 +42,11 @@ export class UserResolver {
 
   @UseMiddleware(auth)
   @FieldResolver(() => [Post])
-  async posts(@Root() { _doc: { _id } }: { _doc: { _id: any } }) {
-    const posts = await PostModel.find({ from: _id.toString() });
+  async posts(
+    @Root() { _doc: { _id } }: { _doc: { _id: Ref<User> } },
+    @Arg('pagination', { nullable: true }) pagination: PaginationInput,
+  ) {
+    const posts = await PostModel.find({ from: _id }, {}, pagination);
     return posts;
   }
   @UseMiddleware(auth)

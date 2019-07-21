@@ -14,6 +14,8 @@ import { DeletePostResolver } from '../resolvers/post/delete.resolver';
 import { FindPostResolver } from '../resolvers/post/find.resolver';
 import { FindOnePostResolver } from '../resolvers/post/findOne.resolver';
 import { ProfilePictureResolver } from '../resolvers/user/profilePitcher.resolver';
+import { PostResolver } from '../resolvers/post/post.resolver';
+import { DoUnDoVote } from '../resolvers/post/doUndoVote.resolver';
 
 @Resolver()
 class HelloResolver {
@@ -42,10 +44,9 @@ export const createSchema = () =>
       FindPostResolver,
       FindOnePostResolver,
       ProfilePictureResolver,
-
+      PostResolver,
+      DoUnDoVote,
     ],
   });
 
-
-
-'{"query":"mutation AddProfilePitcher($pic: Upload){\n  addProfilePicture(picture:$pic)\n}"}'
+'{"query":"mutation AddProfilePitcher($pic: Upload){\n  addProfilePicture(picture:$pic)\n}"}';

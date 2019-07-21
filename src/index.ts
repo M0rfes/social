@@ -7,6 +7,7 @@ import cors from 'cors';
 import { createSchema } from './util/createSchema';
 import { userLoader } from './dataLoader/user.loader';
 import path from 'path';
+import { postLoader } from './dataLoader/post.loader';
 // TODO: make a to save media before saving post
 const main = async () => {
   await mongoose.connect('mongodb://localhost:27017/socail', {
@@ -17,7 +18,7 @@ const main = async () => {
 
   const apolloServer = new ApolloServer({
     schema,
-    context: ({ req, res }) => ({ req, res, userLoader: userLoader() }),
+    context: ({ req, res }) => ({ req, res, userLoader: userLoader(),postLoader:postLoader() }),
   });
 
   const app = Express();
