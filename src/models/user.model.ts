@@ -3,7 +3,7 @@ import { ObjectType, Field, ID, Root } from 'type-graphql';
 import { Gender } from '../enums/genders.enum';
 import { genSalt, hash } from 'bcryptjs';
 import { Post } from './post.model';
-@pre<User>('save', function(next) {
+@pre<User>('save', function (next) {
   if (!this.isModified('password')) {
     next();
   }
@@ -55,6 +55,10 @@ export class User extends Typegoose {
 
   @Field(() => [Post])
   posts: [Post];
+
+  @Field()
+  @prop({ default: '/profile/noImage.jpg' })
+  displayImage: string;
 
   @Field()
   numOfFollowing(@Root() { _doc: doc }: { _doc: User }): number {

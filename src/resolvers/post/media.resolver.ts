@@ -18,8 +18,8 @@ export class MediaResolver {
 
         return new Promise(async (resolve, reject) =>
             createReadStream()
-                .pipe(createWriteStream(path.join(__dirname, '..', '..', 'images', 'profile', `${req.userId}.${filename}`)))
-                .on("finish", () => resolve(`profile/${req.userId}.${filename}`))
+                .pipe(createWriteStream(path.join(__dirname, '..', '..', 'images', `${req.userId}.${Date.now()}.${filename}`)))
+                .on("finish", () => resolve(`${req.userId}.${Date.now()}.${filename}`))
                 .on("error", () => reject(null))
         );
     }

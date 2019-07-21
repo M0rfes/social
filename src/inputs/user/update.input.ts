@@ -1,5 +1,5 @@
 import { InputType, Field } from 'type-graphql';
-import { Length, IsDate, IsEmail, IsEnum } from 'class-validator';
+import { Length, IsDate, IsEmail, IsEnum, IsUrl } from 'class-validator';
 import { User } from '../../models/user.model';
 import { IsEmailUnique } from '../../util/isEmailUnique.validator';
 import { IsDisplayNameUnique } from '../../util/isDisplayNameUnique.validator';
@@ -36,4 +36,8 @@ export class UpdateInput implements Partial<User> {
   @IsEnum(Gender)
   @Field(() => Gender, { nullable: true })
   gender?: Gender;
+
+  @IsUrl()
+  @Field({ nullable: true })
+  displayImage: string;
 }

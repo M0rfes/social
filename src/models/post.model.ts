@@ -2,6 +2,7 @@ import { ObjectType, Field, ID } from 'type-graphql';
 import { Typegoose, prop, Ref } from 'typegoose';
 import { User } from './user.model';
 import { MediaModel } from './media.model';
+import { Interactions } from './interactio';
 
 @ObjectType()
 export class Post extends Typegoose {
@@ -12,17 +13,20 @@ export class Post extends Typegoose {
   @prop()
   readonly body: string;
 
-  @Field(() => Post)
+  @Field(() => Post, { nullable: true })
   @prop({ ref: Post })
-  to: Ref<Post>;
+  to?: Ref<Post>;
 
   @Field(() => User)
   @prop({ ref: User, required: true })
   from: Ref<User>;
 
-  @Field(() => MediaModel)
+  @Field(() => MediaModel, { nullable: true })
   @prop()
-  media: MediaModel
+  media?: MediaModel
+
+  @Field(() => Interactions, { nullable: true })
+  interactions?: Interactions
 }
 
 export const PostModel = new Post().getModelForClass(Post, {

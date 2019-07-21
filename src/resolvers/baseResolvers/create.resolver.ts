@@ -8,6 +8,7 @@ import {
 import { Middleware } from 'type-graphql/dist/interfaces/Middleware';
 import { Model } from 'mongoose';
 import { Ctx } from 'type-graphql';
+import mongoose from 'mongoose';
 
 export function createResolver<T extends ClassType, X extends ClassType>(
   suffix: string,
@@ -25,7 +26,7 @@ export function createResolver<T extends ClassType, X extends ClassType>(
         const e = new entity(data);
         return await e.save();
       }
-      const ent = new entity({ from: req.userId, ...data });
+      const ent = new entity({ from:mongoose.Types.ObjectId(req.userId), ...data });
       return await ent.save();
     }
   }

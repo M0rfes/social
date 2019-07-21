@@ -7,7 +7,7 @@ import { IsUrl } from 'class-validator';
 @InputType()
 export class MediaInput implements Partial<MediaModel> {
     @Field(() => Media)
-    mimetype: Media;
+   type: Media;
 
     @IsUrl()
     @Field()
