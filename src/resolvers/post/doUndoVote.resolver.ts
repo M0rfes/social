@@ -24,7 +24,7 @@ export class DoUnDoVote {
     const post = await PostModel.findById(pid);
     if (!post) return false;
     if (!post.upVote.includes(id)) return true;
-    await post.updateOne({}, { $pull: { upVote: id } });
+    await (post.upVote as any).pull(id);
     await post.save();
     return true;
   }
@@ -48,7 +48,7 @@ export class DoUnDoVote {
     const post = await PostModel.findById(pid);
     if (!post) return false;
     if (!post.downVote.includes(id)) return true;
-    await post.updateOne({}, { $pull: { downVote: id } });
+    await (post.downVote as any).pull(id);
     await post.save();
     return true;
   }

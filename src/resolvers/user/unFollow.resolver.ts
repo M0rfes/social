@@ -18,8 +18,8 @@ export class UnFallowResolver {
     if (!user || !Ouser) {
       return false;
     }
-    await user.updateOne({}, { $pull: { following: id } });
-    await Ouser.updateOne({}, { $pull: { followers: uid } });
+    await (user.following as any).pull(id);
+    await (Ouser.followers as any).pull(uid);
     await user.save();
     await Ouser.save();
     return true;
