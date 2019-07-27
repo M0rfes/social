@@ -28,29 +28,30 @@ export class User extends Typegoose {
   readonly lastName: string;
 
   @Field()
-  @prop({ required: true, unique: true })
+  @prop({ required: true, unique: true, index: true })
   displayName: string;
 
   @Field()
-  @prop({ required: true, unique: true })
+  @prop({ required: true, unique: true, index: true })
   readonly email: string;
 
   @prop({ required: true })
   password: string;
 
   @Field(() => Date, { nullable: true })
-  @prop() // YYYY-MM-DD
+  @prop({ index: true }) // YYYY-MM-DD
   readonly DOB?: Date;
+
   @Field(() => Gender)
   @prop({ enum: Gender, default: Gender.unspecified })
   gender?: Gender;
 
   @Field(() => [User])
-  @arrayProp({ itemsRef: User })
+  @arrayProp({ itemsRef: User, index: true })
   following: Ref<User>[];
 
   @Field(() => [User])
-  @arrayProp({ itemsRef: User })
+  @arrayProp({ itemsRef: User, index: true })
   followers: Ref<User>[];
 
   @Field(() => [Post])

@@ -13,11 +13,11 @@ export class Post extends Typegoose {
   readonly body: string;
 
   @Field(() => Post, { nullable: true })
-  @prop({ ref: Post })
+  @prop({ ref: Post, index: true })
   to?: Ref<Post>;
 
   @Field(() => User)
-  @prop({ ref: User, required: true })
+  @prop({ ref: User, required: true, index: true })
   from: Ref<User>;
 
   @Field(() => MediaModel, { nullable: true })

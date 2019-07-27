@@ -13,6 +13,7 @@ import { Post, PostModel } from '../../models/post.model';
 import { Ref } from 'typegoose';
 import { Arg } from 'type-graphql';
 import { PaginationInput } from '../../inputs/pagination.input';
+import { InvalidTokens } from '../../models/token';
 @Resolver(User)
 export class UserResolver {
   @UseMiddleware(auth)
@@ -51,8 +52,10 @@ export class UserResolver {
   }
   @UseMiddleware(auth)
   @Query(() => Boolean)
-  async logout(): Promise<boolean> {
-    // TODO: make logout
+  async logout(@Ctx() { req }: MyContext): Promise<boolean> {
+    const token = req.header('x-auth-token');
+    const tok = new InvalidTokens({ int: token });
+    await tok.save();
     return true;
   }
 }
