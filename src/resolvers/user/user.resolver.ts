@@ -37,11 +37,29 @@ export class UserResolver {
     @Ctx() { userLoader }: MyContext,
   ) {
     const users = await userLoader.loadMany(user.followers);
-
     return users;
   }
 
-  @UseMiddleware(auth)
+  @FieldResolver(() => [Post])
+  async favPosts(
+    @Root() { _doc }: { _doc: User },
+    @Ctx() { postLoader }: MyContext,
+  ) {
+    return postLoader.loadMany(_doc.favPosts);
+  }
+
+  @FieldResolver(() => [Post])
+  async likedPosts(
+    @Root() { _doc: { _id } }: { _doc: { _id: Ref<User> } },
+    @Arg('pagination', { nullable: true }) pagination: PaginationInput,
+  ) {
+    console.log(_id);
+    const posts = await PostModel.find({}, {}, pagination)
+      .where('upVote')
+      .equals(_id);
+    return posts;
+  }
+
   @FieldResolver(() => [Post])
   async posts(
     @Root() { _doc: { _id } }: { _doc: { _id: Ref<User> } },

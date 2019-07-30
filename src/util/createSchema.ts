@@ -16,6 +16,7 @@ import { FindOnePostResolver } from '../resolvers/post/findOne.resolver';
 import { ProfilePictureResolver } from '../resolvers/user/profilePitcher.resolver';
 import { PostResolver } from '../resolvers/post/post.resolver';
 import { DoUnDoVote } from '../resolvers/post/doUndoVote.resolver';
+import { FavPostResolver } from '../resolvers/user/favPost.resolver';
 
 @Resolver()
 class HelloResolver {
@@ -46,6 +47,7 @@ export const createSchema = () =>
       ProfilePictureResolver,
       PostResolver,
       DoUnDoVote,
+      FavPostResolver,
     ],
   });
 

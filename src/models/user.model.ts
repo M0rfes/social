@@ -67,10 +67,10 @@ export class User extends Typegoose {
 
   @Field(() => [Post], { nullable: true })
   @arrayProp({ itemsRef: Post })
-  favPosts?: Ref<Post>[];
+  favPosts: Ref<Post>[];
 
   @Field(() => [Post], { nullable: true })
-  likedPost: Post[];
+  likedPosts: Post[];
 
   @Field()
   numOfFollowing(@Root() { _doc: doc }: { _doc: User }): number {
