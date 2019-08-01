@@ -62,6 +62,14 @@ export class User extends Typegoose {
   displayImage: string;
 
   @Field()
+  @prop({ default: '' })
+  coverImage: string;
+
+  @Field()
+  @prop()
+  bio: string;
+
+  @Field()
   @prop({ default: Date.now() })
   createdAt: Date;
 

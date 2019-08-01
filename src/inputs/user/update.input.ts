@@ -40,4 +40,12 @@ export class UpdateInput implements Partial<User> {
   @IsUrl()
   @Field({ nullable: true })
   displayImage: string;
+
+  @IsUrl()
+  @Field({ nullable: true })
+  coverImage: string;
+
+  @Length(10, 30)
+  @Field({ nullable: true })
+  bio: string;
 }
