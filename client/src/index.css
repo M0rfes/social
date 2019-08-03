@@ -1,0 +1,26 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+button {
+  cursor: pointer;
+  outline: none;
+  border: none;
+}
+img {
+  width: 100;
+  height: 100;
+}
+a {
+  text-decoration: none;
+}
+input {
+  border: none;
+  background: transparent;
+}
+input:hover,
+input:active {
+  border: none;
+  outline: none;
+}

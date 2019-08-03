@@ -1,27 +1,29 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Logo } from './styled/index';
+
+import { Logo, Wrapper, Section, Title, Lead, Button } from './styled/index';
+
 const LoginSignUp = () => {
+  console.log();
   return (
-    <main>
-      <section className="Right">
-        <Logo className="fas fa-terminal" />
-        <h1 className="my-2 p-2">
-          See What's happening in Engineering world right now
-        </h1>
-        <p className="mb-1 p-1">Join us Today.</p>
-        <Link to="/signup" className="btn btn-primary btn-block mb-1">
+    <Wrapper>
+      <Section>
+        <Logo primary className="fas fa-terminal" />
+        <Title>See What's happening in Engineering world right now</Title>
+        <Lead>Join us Today.</Lead>
+        <Button primary block to="/signup">
           SignUp
-        </Link>
-        <button className="btn btn-secondary border-primary btn-block">
+        </Button>
+        <Button block to="/login">
           login
-        </button>
-      </section>
-      <section className="Left bg-primary">
-        <h1 className="m-3 p-3">Follow interesting people</h1>
-        <h1 className="m-3 p-3">Take part in conversion</h1>
-      </section>
-    </main>
+        </Button>
+      </Section>
+      <Section primary>
+        <Title>Follow interesting people</Title>
+        <Title>Take part in conversion</Title>
+        <Title>Form a community</Title>
+        <Title>Be polite</Title>
+      </Section>
+    </Wrapper>
   );
 };
 
