@@ -1,14 +1,18 @@
 import React from 'react';
 import Input from './Input';
+import { Title, Container } from './styled/index';
 
 const SignUP = () => {
   return (
-    <main>
-      <h1 className="m-3 p-5">Create your account</h1>
-      <form className="m-4 p-4">
-        <Input label="Display Name" type="Text" name="displayName" />
-      </form>
-    </main>
+    <>
+      <Title>Create your account</Title>
+      <Container>
+        <form>
+          <Input label="Display Name" type="Text" name="displayName" />
+          <Input label="Email" type="email" name="email" />
+        </form>
+      </Container>
+    </>
   );
 };
 

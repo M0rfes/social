@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Logo, Wrapper, Section, Title, Lead, Button } from './styled/index';
+import { Logo, Wrapper, Section, Title, Lead, SLink } from './styled/index';
 
 const LoginSignUp = () => {
   console.log();
@@ -10,18 +10,18 @@ const LoginSignUp = () => {
         <Logo primary className="fas fa-terminal" />
         <Title>See What's happening in Engineering world right now</Title>
         <Lead>Join us Today.</Lead>
-        <Button primary block to="/signup">
+        <SLink primary block to="/signup">
           SignUp
-        </Button>
-        <Button block to="/login">
+        </SLink>
+        <SLink block to="/login">
           login
-        </Button>
+        </SLink>
       </Section>
       <Section primary>
+        <Logo className="fas fa-user-friends" />
         <Title>Follow interesting people</Title>
+        <Logo className="fas fa-comments" />
         <Title>Take part in conversion</Title>
-        <Title>Form a community</Title>
-        <Title>Be polite</Title>
       </Section>
     </Wrapper>
   );
