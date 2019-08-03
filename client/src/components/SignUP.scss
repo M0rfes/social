@@ -1,0 +1,23 @@
+main {
+  h1 {
+    text-align: center;
+  }
+  form {
+  }
+}
+.input {
+  background: #f5f8fa;
+  height: 50%;
+  width: 100%;
+  border-bottom: 2px $dark solid;
+  label {
+    display: inline-block;
+  }
+  input {
+    display: inline-block;
+    width: 90%;
+    height: 100%;
+    font-size: 1.5rem;
+    margin-block: 0.5rem;
+  }
+}
