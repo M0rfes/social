@@ -40,7 +40,7 @@ export const SLink = styled(Link)<{ primary?: boolean; block?: boolean }>`
   margin: auto;
   margin-bottom: 2rem;
   &:hover,
-  &:focus {
+  &:active {
     background: ${props =>
       props.primary ? props.theme.primaryDarker : props.theme.infoDarker};
     transition: 200ms all ease-in;
@@ -49,22 +49,58 @@ export const SLink = styled(Link)<{ primary?: boolean; block?: boolean }>`
     margin: 1rem;
   }
 `;
-export const Container = styled.main`
+export const SignUPForm = styled.form`
   margin: auto;
   width: 80vw;
 `;
-export const InputContainer = styled.div`
+export const InputContainer = styled.div<{ focus: boolean }>`
   width: 100%;
   background: #f5f8fa;
-  border-bottom: 2px solid ${props => props.theme.primary};
+  border-bottom: 2px solid ${props => (props.focus ? props.theme.primary : '')};
+  margin: 1.5rem 0;
   * {
     display: inline-block;
   }
   label {
     margin: 1rem 0 0.5rem 1rem;
+    color: ${props => (props.focus ? props.theme.primary : '')};
   }
   input {
     font-size: 1.5rem;
     margin: 0 0.5rem;
+    width: 100%;
   }
+  select {
+    width: 90%;
+    margin: 0 0.5rem;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    background: transparent;
+    appearance: none;
+  }
+`;
+export const SubmitButton = styled.button`
+  padding: 1rem 1.5rem;
+  width: 100%;
+  margin: 1rem auto;
+  background: ${prop => prop.theme.primary};
+  color: #ffffff;
+  &:active,
+  &:hover {
+    background: ${props => props.theme.primaryDarker};
+    transition: 200ms all ease-in;
+  }
+  &:disabled {
+    cursor: not-allowed;
+    background: ${prop => prop.theme.info};
+  }
+`;
+
+export const Error = styled.span`
+  color: ${prop => prop.theme.error};
+`;
+export const Container = styled.main`
+  width: 80vw;
+  margin: auto;
 `;
