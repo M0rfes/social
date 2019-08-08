@@ -1,8 +1,8 @@
 import React from 'react';
-import { InputContainer, Title, SubmitButton, Lead } from './styled';
+import { InputContainer, Title, SubmitButton, Error } from './styled';
 import { Form, Field, withFormik, FormikProps } from 'formik';
 import { Container } from './styled/index';
-
+import * as Yup from 'yup';
 type Gender = 'male' | 'female' | 'unspecified';
 
 interface SignUpFormValues {
@@ -12,7 +12,7 @@ interface SignUpFormValues {
   email: string;
   password: string;
   cPassword: string;
-  gender: Gender;
+  gender?: Gender;
 }
 
 interface SignUpFormProps {
@@ -33,6 +33,9 @@ const SignUP: React.FC<FormikProps<SignUpFormValues>> = props => {
             <label>Display Name</label>
             <Field component="input" name="displayName" />
           </InputContainer>
+          {props.touched.displayName && props.errors.displayName && (
+            <Error>{props.errors.displayName}</Error>
+          )}
           <InputContainer focus>
             <label>Email</label>
             <Field component="input" type="email" name="email" />
@@ -67,7 +70,25 @@ const SignUP: React.FC<FormikProps<SignUpFormValues>> = props => {
     </>
   );
 };
-
+const signUpSchema = Yup.object<SignUpFormValues>({
+  displayName: Yup.string()
+    .min(2)
+    .max(255)
+    .required(),
+  firstName: Yup.string()
+    .min(2)
+    .max(255)
+    .required(),
+  lastName: Yup.string()
+    .min(2)
+    .max(255)
+    .required(),
+  email: Yup.string()
+    .email('Enter a email ')
+    .required(),
+  password: Yup.string().required(),
+  cPassword: Yup.string().required(),
+});
 export default withFormik<SignUpFormProps, SignUpFormValues>({
   mapPropsToValues(props) {
     return {
@@ -80,6 +101,9 @@ export default withFormik<SignUpFormProps, SignUpFormValues>({
       gender: 'unspecified',
     };
   },
+  validationSchema: signUpSchema,
+  validateOnBlur: true,
+
   handleSubmit(props) {
     console.log(props);
   },
