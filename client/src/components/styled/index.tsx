@@ -53,22 +53,24 @@ export const SignUPForm = styled.form`
   margin: auto;
   width: 80vw;
 `;
-export const InputContainer = styled.div<{ focus: boolean }>`
+export const InputContainer = styled.div<{ error?: any }>`
   width: 100%;
   background: #f5f8fa;
-  border-bottom: 2px solid ${props => (props.focus ? props.theme.primary : '')};
+  border-bottom: 2px solid
+    ${props => (props.error ? props.theme.error : props.theme.primary)};
   margin: 1.5rem 0;
   * {
     display: inline-block;
   }
   label {
     margin: 1rem 0 0.5rem 1rem;
-    color: ${props => (props.focus ? props.theme.primary : '')};
+    color: ${props => (props.error ? props.theme.error : props.theme.primary)};
   }
   input {
     font-size: 1.5rem;
     margin: 0 0.5rem;
     width: 100%;
+    color: ${props => (props.error ? props.theme.error : props.theme.primary)};
   }
   select {
     width: 90%;
@@ -97,7 +99,7 @@ export const SubmitButton = styled.button`
   }
 `;
 
-export const Error = styled.span`
+export const Errors = styled.span`
   color: ${prop => prop.theme.error};
 `;
 export const Container = styled.main`

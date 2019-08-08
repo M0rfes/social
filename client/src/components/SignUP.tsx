@@ -1,8 +1,11 @@
-import React from 'react';
-import { InputContainer, Title, SubmitButton, Error } from './styled';
-import { Form, Field, withFormik, FormikProps } from 'formik';
+import React, { useState } from 'react';
+import { InputContainer, Title, SubmitButton, Errors } from './styled';
+import { Field, withFormik, FormikProps } from 'formik';
 import { Container } from './styled/index';
 import * as Yup from 'yup';
+
+import { SIGN_UP } from '../mutation/index';
+import { useMutation } from '@apollo/react-hooks';
 type Gender = 'male' | 'female' | 'unspecified';
 
 interface SignUpFormValues {
@@ -21,51 +24,145 @@ interface SignUpFormProps {
   displayName?: string;
   email?: string;
   password?: string;
+  gender?: string;
 }
-
 const SignUP: React.FC<FormikProps<SignUpFormValues>> = props => {
+  const [formData, setFormVal] = useState<SignUpFormValues>({
+    firstName: '',
+    lastName: '',
+    displayName: '',
+    email: '',
+    password: '',
+    cPassword: '',
+    gender: 'unspecified',
+  });
+  const [signUP, { data, loading, error }] = useMutation(SIGN_UP);
+  const {
+    displayName,
+    email,
+    firstName,
+    lastName,
+    password,
+    gender,
+  } = formData;
+  const handleChange = (e: any) => {
+    props.handleChange(e);
+    setFormVal({ ...formData, [e.target.name]: e.target.value });
+  };
+  const handelSubmit = async (e: any) => {
+    props.handleSubmit(e);
+    try {
+      const res = await signUP({
+        variables: {
+          data: { firstName, lastName, email, displayName, password },
+        },
+      });
+      console.log(res);
+    } catch (e) {
+      console.log(e);
+    }
+  };
   return (
     <>
       <Title>Create your account</Title>
       <Container>
-        <Form>
-          <InputContainer focus>
+        <form onSubmit={handelSubmit}>
+          <InputContainer
+            error={props.touched.displayName && props.errors.displayName}
+          >
             <label>Display Name</label>
-            <Field component="input" name="displayName" />
+            <Field
+              component="input"
+              name="displayName"
+              value={displayName}
+              onChange={handleChange}
+            />
           </InputContainer>
           {props.touched.displayName && props.errors.displayName && (
-            <Error>{props.errors.displayName}</Error>
+            <Errors>{props.errors.displayName}</Errors>
           )}
-          <InputContainer focus>
+          <InputContainer error={props.touched.email && props.errors.email}>
             <label>Email</label>
-            <Field component="input" type="email" name="email" />
+            <Field
+              component="input"
+              type="email"
+              name="email"
+              value={email}
+              onChange={handleChange}
+            />
           </InputContainer>
-          <InputContainer focus>
+          {props.touched.email && props.errors.email && (
+            <Errors>{props.errors.email}</Errors>
+          )}
+          <InputContainer
+            error={props.touched.firstName && props.errors.firstName}
+          >
             <label>First Name</label>
-            <Field component="input" name="text" />
+            <Field
+              component="input"
+              name="firstName"
+              value={firstName}
+              onChange={handleChange}
+            />
           </InputContainer>
-          <InputContainer focus>
+          {props.touched.firstName && props.errors.firstName && (
+            <Errors>{props.errors.firstName}</Errors>
+          )}
+          <InputContainer
+            error={props.touched.lastName && props.errors.lastName}
+          >
             <label>Last Name</label>
-            <Field component="input" name="lastName" />
+            <Field
+              component="input"
+              name="lastName"
+              value={lastName}
+              onChange={handleChange}
+            />
           </InputContainer>
-          <InputContainer focus>
+          {props.touched.lastName && props.errors.lastName && (
+            <Errors>{props.errors.lastName}</Errors>
+          )}
+          <InputContainer
+            error={props.touched.password && props.errors.password}
+          >
             <label>Password</label>
-            <Field component="input" type="password" name="password" />
+            <Field
+              component="input"
+              type="password"
+              name="password"
+              value={password}
+              onChange={handleChange}
+            />
           </InputContainer>
-          <InputContainer focus>
+          {props.touched.password && props.errors.password && (
+            <Errors>{props.errors.password}</Errors>
+          )}
+          <InputContainer
+            error={props.touched.cPassword && props.errors.cPassword}
+          >
             <label>Conform Password</label>
-            <Field component="input" type="password" name="cPassword" />
+            <Field
+              component="input"
+              type="password"
+              name="cPassword"
+              onChange={handleChange}
+            />
           </InputContainer>
-          <InputContainer focus>
+          {props.touched.cPassword && props.errors.cPassword && (
+            <Errors>{props.errors.cPassword}</Errors>
+          )}
+          <InputContainer>
             <label>Gender</label>
-            <Field component="select" name="gender" value={props.values.gender}>
+            <Field component="select" name="gender" value={gender}>
               <option value="male">male</option>
               <option value="female">Female</option>
               <option value="unspecified">unspecified</option>
             </Field>
           </InputContainer>
-          <SubmitButton type="submit">Submit</SubmitButton>
-        </Form>
+          <SubmitButton type="submit" disabled={loading}>
+            Submit
+          </SubmitButton>
+        </form>
       </Container>
     </>
   );
@@ -86,8 +183,14 @@ const signUpSchema = Yup.object<SignUpFormValues>({
   email: Yup.string()
     .email('Enter a email ')
     .required(),
-  password: Yup.string().required(),
-  cPassword: Yup.string().required(),
+  password: Yup.string()
+    .min(6)
+    .max(255)
+    .required(),
+  cPassword: Yup.string()
+    .min(6)
+    .max(255)
+    .required('conform password is a required field'),
 });
 export default withFormik<SignUpFormProps, SignUpFormValues>({
   mapPropsToValues(props) {
@@ -101,10 +204,14 @@ export default withFormik<SignUpFormProps, SignUpFormValues>({
       gender: 'unspecified',
     };
   },
+  validate({ password, cPassword }) {
+    if (password !== cPassword) {
+      return {
+        cPassword: 'password and conform password must match',
+      };
+    }
+  },
   validationSchema: signUpSchema,
   validateOnBlur: true,
-
-  handleSubmit(props) {
-    console.log(props);
-  },
+  handleSubmit(props) {},
 })(SignUP);
