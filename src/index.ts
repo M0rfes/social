@@ -1,4 +1,3 @@
-;
 import 'reflect-metadata';
 import { ApolloServer } from 'apollo-server-express';
 import Express from 'express';
@@ -8,7 +7,6 @@ import { createSchema } from './util/createSchema';
 import { userLoader } from './dataLoader/user.loader';
 import path from 'path';
 import { postLoader } from './dataLoader/post.loader';
-// TODO: make a to save media before saving post
 const main = async () => {
   await mongoose.connect('mongodb://localhost:27017/socail', {
     useNewUrlParser: true,
@@ -18,12 +16,17 @@ const main = async () => {
 
   const apolloServer = new ApolloServer({
     schema,
-    context: ({ req, res }) => ({ req, res, userLoader: userLoader(),postLoader:postLoader() }),
+    context: ({ req, res }) => ({
+      req,
+      res,
+      userLoader: userLoader(),
+      postLoader: postLoader(),
+    }),
   });
 
   const app = Express();
 
-  app.use(Express.static(path.join(__dirname, 'images')))
+  app.use(Express.static(path.join(__dirname, 'images')));
 
   app.use(
     cors({

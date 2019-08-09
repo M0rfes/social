@@ -3,7 +3,7 @@ import { InputContainer, Title, SubmitButton, Errors } from './styled';
 import { Field, withFormik, FormikProps } from 'formik';
 import { Container } from './styled/index';
 import * as Yup from 'yup';
-
+import { RouteComponentProps } from 'react-router-dom';
 import { SIGN_UP } from '../mutation/index';
 import { useMutation } from '@apollo/react-hooks';
 type Gender = 'male' | 'female' | 'unspecified';
@@ -18,7 +18,7 @@ interface SignUpFormValues {
   gender?: Gender;
 }
 
-interface SignUpFormProps {
+interface SignUpFormProps extends RouteComponentProps {
   lastName?: string;
   firstName?: string;
   displayName?: string;
@@ -26,7 +26,9 @@ interface SignUpFormProps {
   password?: string;
   gender?: string;
 }
-const SignUP: React.FC<FormikProps<SignUpFormValues>> = props => {
+const SignUP: React.FC<
+  FormikProps<SignUpFormValues> & SignUpFormProps
+> = props => {
   const [formData, setFormVal] = useState<SignUpFormValues>({
     firstName: '',
     lastName: '',
@@ -36,7 +38,7 @@ const SignUP: React.FC<FormikProps<SignUpFormValues>> = props => {
     cPassword: '',
     gender: 'unspecified',
   });
-  const [signUP, { data, loading, error }] = useMutation(SIGN_UP);
+  const [signUP, { loading, error }] = useMutation(SIGN_UP);
   const {
     displayName,
     email,
@@ -58,8 +60,11 @@ const SignUP: React.FC<FormikProps<SignUpFormValues>> = props => {
         },
       });
       console.log(res);
-    } catch (e) {
-      console.log(e);
+    } catch {
+      props.setErrors({
+        displayName: 'Display name or email all ready in use',
+        email: 'Display name or email all ready in use',
+      });
     }
   };
   return (

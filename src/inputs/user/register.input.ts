@@ -46,6 +46,6 @@ export class RegisterInput implements Partial<User> {
   coverImage: string;
 
   @Length(10, 30)
-  @Field()
+  @Field({ nullable: true })
   bio: string;
 }
