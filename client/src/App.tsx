@@ -8,6 +8,8 @@ import {
 import LoginSignUp from './components/LoginSignUp';
 import SignUP from './components/SignUP';
 import { ThemeProvider } from 'styled-components';
+import SignIn from './components/SignIn';
+import AuthProvider from './context/Auth.Context';
 
 const App: React.FC = () => {
   const theme = {
@@ -22,17 +24,19 @@ const App: React.FC = () => {
     dark: '#010101',
   };
   return (
-    <>
+    <AuthProvider>
       <ThemeProvider theme={theme}>
         <Router>
           <Switch>
             <Route path="/" exact component={LoginSignUp} />
             <Route path="/signup" exact component={SignUP} />
-            <Redirect to="/signup" />
+            <Route path="/signin" component={SignIn} />
+            <Route path="/signin/:email" component={SignIn} />
+            <Redirect to="/" />
           </Switch>
         </Router>
       </ThemeProvider>
-    </>
+    </AuthProvider>
   );
 };
 

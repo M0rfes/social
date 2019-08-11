@@ -3,7 +3,7 @@ import { InputContainer, Title, SubmitButton, Errors } from './styled';
 import { Field, withFormik, FormikProps } from 'formik';
 import { Container } from './styled/index';
 import * as Yup from 'yup';
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps, Redirect } from 'react-router-dom';
 import { SIGN_UP } from '../mutation/index';
 import { useMutation } from '@apollo/react-hooks';
 type Gender = 'male' | 'female' | 'unspecified';
@@ -54,12 +54,13 @@ const SignUP: React.FC<
   const handelSubmit = async (e: any) => {
     props.handleSubmit(e);
     try {
-      const res = await signUP({
+      const { data }: any = await signUP({
         variables: {
           data: { firstName, lastName, email, displayName, password },
         },
       });
-      console.log(res);
+      console.log(data.createUser);
+      props.history.push(`/signin/${data.createUser.email}`);
     } catch {
       props.setErrors({
         displayName: 'Display name or email all ready in use',
@@ -164,7 +165,7 @@ const SignUP: React.FC<
               <option value="unspecified">unspecified</option>
             </Field>
           </InputContainer>
-          <SubmitButton type="submit" disabled={loading}>
+          <SubmitButton type="submit" disabled={loading || !props.isValid}>
             Submit
           </SubmitButton>
         </form>

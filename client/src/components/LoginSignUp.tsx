@@ -13,7 +13,7 @@ const LoginSignUp = () => {
         <SLink primary block to="/signup">
           SignUp
         </SLink>
-        <SLink block to="/login">
+        <SLink block to="/signin">
           login
         </SLink>
       </Section>
