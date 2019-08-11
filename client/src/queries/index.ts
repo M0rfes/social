@@ -6,3 +6,12 @@ export const SIGN_IN = gql`
     }
   }
 `;
+
+export const GET_ME = gql`
+  query ME {
+    me {
+      name
+      displayName
+    }
+  }
+`;

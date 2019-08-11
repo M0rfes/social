@@ -10,7 +10,8 @@ import SignUP from './components/SignUP';
 import { ThemeProvider } from 'styled-components';
 import SignIn from './components/SignIn';
 import AuthProvider from './context/Auth.Context';
-
+import ProtectedRout from './components/auth/ProtectedRout';
+// TODO: add theme context abd theme reducer
 const App: React.FC = () => {
   const theme = {
     primary: '#38a1f3',
@@ -30,8 +31,9 @@ const App: React.FC = () => {
           <Switch>
             <Route path="/" exact component={LoginSignUp} />
             <Route path="/signup" exact component={SignUP} />
-            <Route path="/signin" component={SignIn} />
+            <Route path="/signin" exact component={SignIn} />
             <Route path="/signin/:email" component={SignIn} />
+            <ProtectedRout path="/private" component={SignIn} />
             <Redirect to="/" />
           </Switch>
         </Router>
