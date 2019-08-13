@@ -21,7 +21,7 @@ export class UserResolver {
   async me(@Ctx() { req }: MyContext) {
     return await UserModel.findById((req as any).userId);
   }
-
+  // TODO: pagination and limiting on load flowers and flowing
   @FieldResolver(() => [User])
   async following(
     @Root() { _doc: user }: { _doc: User },

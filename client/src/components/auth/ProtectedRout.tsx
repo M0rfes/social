@@ -1,5 +1,5 @@
 import React, { ComponentType } from 'react';
-import { RouteComponentProps, Redirect, Route } from 'react-router-dom';
+import { Redirect, Route } from 'react-router-dom';
 import { useQuery } from '@apollo/react-hooks';
 import { GET_ME } from '../../queries/index';
 interface Prop {

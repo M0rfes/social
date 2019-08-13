@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
-import { InputContainer, Title, SubmitButton, Errors } from './styled';
+import {
+  InputContainer,
+  Title,
+  SubmitButton,
+  Errors,
+  Background,
+} from './styled';
 import { Field, withFormik, FormikProps } from 'formik';
 import { Container } from './styled/index';
 import * as Yup from 'yup';
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps, Redirect } from 'react-router-dom';
 import { useApolloClient } from '@apollo/react-hooks';
 import { SIGN_IN } from '../queries/index';
 import { useContext } from 'react';
@@ -25,7 +31,8 @@ const SignIn: React.FC<
     email: iniEmail,
     password: '',
   });
-  const { token, setToken } = useContext(AuthContext);
+  const [ref, setRef] = useState(false);
+  const { setToken } = useContext(AuthContext);
   const client = useApolloClient();
   const { email, password } = formData;
   const handleChange = (e: any) => {
@@ -41,6 +48,7 @@ const SignIn: React.FC<
       });
       console.log(data.login);
       setToken(data.login.token);
+      setRef(true);
       if (errors || !data.login) {
         throw errors;
       }
@@ -51,9 +59,13 @@ const SignIn: React.FC<
       });
     }
   };
+  const { from } = props.location.state || { from: '/' };
+  if (ref) {
+    return <Redirect to={from} />;
+  }
   return (
-    <>
-      <Title>Create your account</Title>
+    <Background>
+      <Title>Login</Title>
       <Container>
         <form onSubmit={handelSubmit}>
           <InputContainer error={props.touched.email && props.errors.email}>
@@ -89,18 +101,10 @@ const SignIn: React.FC<
           </SubmitButton>
         </form>
       </Container>
-    </>
+    </Background>
   );
 };
-const signUpSchema = Yup.object<SignInFormValues>({
-  email: Yup.string()
-    .email('Enter a email ')
-    .required(),
-  password: Yup.string()
-    .min(6)
-    .max(255)
-    .required(),
-});
+
 export default withFormik<SignInFormProps, SignInFormValues>({
   mapPropsToValues(props) {
     return {
@@ -109,7 +113,15 @@ export default withFormik<SignInFormProps, SignInFormValues>({
     };
   },
 
-  validationSchema: signUpSchema,
+  validationSchema: Yup.object<SignInFormValues>({
+    email: Yup.string()
+      .email('Enter a email ')
+      .required(),
+    password: Yup.string()
+      .min(6)
+      .max(255)
+      .required(),
+  }),
   validateOnBlur: true,
-  handleSubmit(props) {},
+  handleSubmit(_) {},
 })(SignIn);

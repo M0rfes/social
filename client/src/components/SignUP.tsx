@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
-import { InputContainer, Title, SubmitButton, Errors } from './styled';
+import {
+  InputContainer,
+  Title,
+  SubmitButton,
+  Errors,
+  Background,
+} from './styled';
 import { Field, withFormik, FormikProps } from 'formik';
 import { Container } from './styled/index';
 import * as Yup from 'yup';
@@ -69,7 +75,7 @@ const SignUP: React.FC<
     }
   };
   return (
-    <>
+    <Background>
       <Title>Create your account</Title>
       <Container>
         <form onSubmit={handelSubmit}>
@@ -170,7 +176,7 @@ const SignUP: React.FC<
           </SubmitButton>
         </form>
       </Container>
-    </>
+    </Background>
   );
 };
 const signUpSchema = Yup.object<SignUpFormValues>({

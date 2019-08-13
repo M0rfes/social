@@ -55,7 +55,7 @@ export const SignUPForm = styled.form`
 `;
 export const InputContainer = styled.div<{ error?: any }>`
   width: 100%;
-  background: #f5f8fa;
+  background: ${props => props.theme.secondary};
   border-bottom: 2px solid
     ${props => (props.error ? props.theme.error : props.theme.primary)};
   margin: 1.5rem 0;
@@ -105,4 +105,9 @@ export const Errors = styled.span`
 export const Container = styled.main`
   width: 80vw;
   margin: auto;
+`;
+export const Background = styled.div`
+  background: ${props => props.theme.secondary};
+  min-height: 100vh;
+  padding: 1% 0;
 `;
