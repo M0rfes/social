@@ -47,12 +47,7 @@ const App: React.FC = () => {
                       <Route path="/signup" exact component={SignUP} />
                       <Route path="/signin" exact component={SignIn} />
                       <Route path="/signin/:email" component={SignIn} />
-                      <Route
-                        path="/test"
-                        render={() => (
-                          <NavBar title="Home" user={{ displayImage: '' }} />
-                        )}
-                      />
+
                       <ProtectedRout path="/private" component={SignIn} />
                       <Redirect to="/" />
                     </Switch>

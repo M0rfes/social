@@ -7,9 +7,11 @@ import { linkTo } from '@storybook/addon-links';
 import App from '../App';
 import Loader from '../components/Loader';
 import NavBar from '../components/NavBar';
-import { FC } from 'react';
+
 import { ThemeProvider } from 'styled-components';
 import { BrowserRouter } from 'react-router-dom';
+import Post from '../components/Post';
+import { UserData } from './data/user.data';
 const theme = {
   primary: '#38a1f3',
   primaryDarker: '#2875b0',
@@ -22,12 +24,30 @@ const theme = {
   dark: '#010101',
 };
 
-storiesOf('App', module).add('Landing Page', () => <App />);
-storiesOf('Loader', module).add('Loader', () => <Loader />);
-storiesOf('NavBar', module).add('Nav', () => (
-  <ThemeProvider theme={theme}>
-    <BrowserRouter>
-      <NavBar user={{ displayImage: './alex.jpg' }} title="Home" />
-    </BrowserRouter>
-  </ThemeProvider>
-));
+storiesOf('App', module)
+  .add('Landing Page', () => <App />)
+  .add('Loader', () => <Loader />)
+  .add('Nav', () => (
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
+        <NavBar user={new UserData()} title="Home" />
+      </BrowserRouter>
+    </ThemeProvider>
+  ))
+  .add('Post', () => (
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
+        <Post
+          post={{
+            body: ` Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo iusto accusamus suscipit facilis deleniti, cumque quidem eum sed corporis! Ducimus?
+          `,
+            id: '4',
+            totalUpVote: 0,
+            totalDownVote: 0,
+            createdAT: new Date(),
+            from: new UserData(),
+          }}
+        />
+      </BrowserRouter>
+    </ThemeProvider>
+  ));

@@ -3,12 +3,12 @@ import { IUser } from './User';
 export interface IPost {
   id: string;
   body: string;
-  to: string;
-  from: string;
+  to?: string;
+  from: IUser;
   createdAT: Date;
-  upVote: IUser;
-  downVote: IUser;
+  upVotes?: IUser[];
+  downVotes?: IUser[];
   totalUpVote: number;
   totalDownVote: number;
-  media: Media;
+  media?: Media;
 }

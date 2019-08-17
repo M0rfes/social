@@ -3,10 +3,9 @@ import { Link } from 'react-router-dom';
 
 export const Icon = styled.span<{
   primary?: boolean;
-  color?: string;
 }>`
   font-size: 3rem;
-  color: ${prop => (prop.primary ? prop.theme.primary : prop.color)};
+  color: ${prop => (prop.primary ? prop.theme.primary : prop.theme.info)};
   margin: 1rem;
 `;
 export const Wrapper = styled.main`
@@ -109,8 +108,4 @@ export const Container = styled.main`
   width: 80vw;
   margin: auto;
 `;
-export const Background = styled.div`
-  background: ${props => props.theme.secondary};
-  min-height: 100vh;
-  padding: 1% 0;
-`;
+export const Background = styled.div``;

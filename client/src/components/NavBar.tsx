@@ -3,22 +3,22 @@ import { Nav, NaveImage, ActionBar } from './styled/nave';
 import { Title, Background, Icon } from './styled';
 import { FC } from 'react';
 import '../index.scss';
-import alex from './alex.jpg';
 
-import { FaHome } from 'react-icons/fa';
+import { FaHome, FaSearch, FaUserFriends, FaHeart } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { IUser } from '../interface/User';
 interface NavProp {
   title: string;
-  user: {
-    displayImage: string;
-  };
+  user: IUser;
 }
 
 const NavBar: FC<NavProp> = props => {
   return (
-    <Background>
+    <>
       <Nav>
-        <NaveImage src={alex} />
+        <Link to="profile">
+          <NaveImage src={props.user.displayImage} />
+        </Link>
         <Title>{props.title}</Title>
       </Nav>
       <ActionBar>
@@ -27,8 +27,23 @@ const NavBar: FC<NavProp> = props => {
             <FaHome />
           </Icon>
         </Link>
+        <Link to="#">
+          <Icon>
+            <FaSearch />
+          </Icon>
+        </Link>
+        <Link to="#">
+          <Icon>
+            <FaUserFriends />
+          </Icon>
+        </Link>
+        <Link to="#">
+          <Icon>
+            <FaHeart />
+          </Icon>
+        </Link>
       </ActionBar>
-    </Background>
+    </>
   );
 };
 
