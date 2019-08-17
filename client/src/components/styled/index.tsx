@@ -1,7 +1,10 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-export const Logo = styled.i<{ primary?: boolean; color?: string }>`
+export const Icon = styled.span<{
+  primary?: boolean;
+  color?: string;
+}>`
   font-size: 3rem;
   color: ${prop => (prop.primary ? prop.theme.primary : prop.color)};
   margin: 1rem;

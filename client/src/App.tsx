@@ -13,6 +13,8 @@ import SignIn from './components/SignIn';
 import AuthProvider from './context/Auth.Context';
 import ProtectedRout from './components/auth/ProtectedRout';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import NavBar from './components/NavBar';
+import { IconContext } from 'react-icons';
 // TODO: add theme context abd theme reducer
 const App: React.FC = () => {
   const theme = {
@@ -29,29 +31,37 @@ const App: React.FC = () => {
   return (
     <AuthProvider>
       <ThemeProvider theme={theme}>
-        <Router>
-          <Route
-            path="/"
-            render={({ location }) => (
-              <TransitionGroup>
-                <CSSTransition
-                  classNames="fade"
-                  timeout={300}
-                  key={location.key}
-                >
-                  <Switch location={location}>
-                    <Route path="/" exact component={LoginSignUp} />
-                    <Route path="/signup" exact component={SignUP} />
-                    <Route path="/signin" exact component={SignIn} />
-                    <Route path="/signin/:email" component={SignIn} />
-                    <ProtectedRout path="/private" component={SignIn} />
-                    <Redirect to="/" />
-                  </Switch>
-                </CSSTransition>
-              </TransitionGroup>
-            )}
-          />
-        </Router>
+        <IconContext.Provider value={{}}>
+          <Router>
+            <Route
+              path="/"
+              render={({ location }) => (
+                <TransitionGroup>
+                  <CSSTransition
+                    classNames="fade"
+                    timeout={300}
+                    key={location.key}
+                  >
+                    <Switch location={location}>
+                      <Route path="/" exact component={LoginSignUp} />
+                      <Route path="/signup" exact component={SignUP} />
+                      <Route path="/signin" exact component={SignIn} />
+                      <Route path="/signin/:email" component={SignIn} />
+                      <Route
+                        path="/test"
+                        render={() => (
+                          <NavBar title="Home" user={{ displayImage: '' }} />
+                        )}
+                      />
+                      <ProtectedRout path="/private" component={SignIn} />
+                      <Redirect to="/" />
+                    </Switch>
+                  </CSSTransition>
+                </TransitionGroup>
+              )}
+            />
+          </Router>
+        </IconContext.Provider>
       </ThemeProvider>
     </AuthProvider>
   );

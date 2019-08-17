@@ -1,13 +1,16 @@
 import React from 'react';
 
-import { Logo, Wrapper, Section, Title, Lead, SLink } from './styled/index';
+import { Wrapper, Section, Title, Lead, SLink, Icon } from './styled/index';
+import { FaTerminal, FaUserFriends, FaComment } from 'react-icons/fa';
 
 const LoginSignUp = () => {
   console.log();
   return (
     <Wrapper>
       <Section>
-        <Logo primary className="fas fa-terminal" />
+        <Icon primary>
+          <FaTerminal />
+        </Icon>
         <Title>See What's happening in Engineering world right now</Title>
         <Lead>Join us Today.</Lead>
         <SLink primary block to="/signup">
@@ -18,9 +21,13 @@ const LoginSignUp = () => {
         </SLink>
       </Section>
       <Section primary>
-        <Logo className="fas fa-user-friends" />
+        <Icon>
+          <FaUserFriends />
+        </Icon>
         <Title>Follow interesting people</Title>
-        <Logo className="fas fa-comments" />
+        <Icon>
+          <FaComment />
+        </Icon>
         <Title>Take part in conversion</Title>
       </Section>
     </Wrapper>

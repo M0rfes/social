@@ -2,12 +2,14 @@ import React, { ComponentType } from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import { useQuery } from '@apollo/react-hooks';
 import { GET_ME } from '../../queries/index';
+import { IUser } from '../../interface/User';
+import Loader from '../Loader';
 interface Prop {
   component: ComponentType<any>;
   path: string;
 }
 const ProtectedRout: React.FC<Prop> = ({ component: Component, ...rest }) => {
-  const { loading, error, data } = useQuery(GET_ME);
+  const { loading, error, data } = useQuery<{ me: IUser }>(GET_ME);
   return (
     <Route
       {...rest}
@@ -17,7 +19,11 @@ const ProtectedRout: React.FC<Prop> = ({ component: Component, ...rest }) => {
             <Redirect to={{ pathname: '/', state: { from: props.location } }} />
           );
         } else {
-          return <Component {...props} user={data.me} />;
+          return loading ? (
+            <Loader />
+          ) : (
+            <Component {...props} user={data!.me} />
+          );
         }
       }}
     />
