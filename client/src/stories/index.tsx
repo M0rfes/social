@@ -10,8 +10,9 @@ import NavBar from '../components/NavBar';
 
 import { ThemeProvider } from 'styled-components';
 import { BrowserRouter } from 'react-router-dom';
-import Post from '../components/Post';
 import { UserData } from './data/user.data';
+import { PostData } from './data/post.data';
+import Post from '../components/Post';
 const theme = {
   primary: '#38a1f3',
   primaryDarker: '#2875b0',
@@ -23,31 +24,23 @@ const theme = {
   infoDarker: '#9fbfcf',
   dark: '#010101',
 };
-
+const User = new UserData('5', []);
+const Post2 = new PostData('2', User);
+const User2 = new UserData('6', [Post2]);
 storiesOf('App', module)
   .add('Landing Page', () => <App />)
   .add('Loader', () => <Loader />)
   .add('Nav', () => (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
-        <NavBar user={new UserData()} title="Home" />
+        <NavBar user={User} title="Home" />
       </BrowserRouter>
     </ThemeProvider>
   ))
   .add('Post', () => (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
-        <Post
-          post={{
-            body: ` Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo iusto accusamus suscipit facilis deleniti, cumque quidem eum sed corporis! Ducimus?
-          `,
-            id: '4',
-            totalUpVote: 0,
-            totalDownVote: 0,
-            createdAT: new Date(),
-            from: new UserData(),
-          }}
-        />
+        <Post post={Post2} user={User} />
       </BrowserRouter>
     </ThemeProvider>
   ));

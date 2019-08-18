@@ -1,13 +1,14 @@
 import { IUser } from '../../interface/User';
+import { IPost } from '../../interface/Post';
 
 export class UserData implements IUser {
+  constructor(public id: string, public likedPost: IPost[]) {}
   followers: IUser[] = [];
   following: IUser[] = [];
   createdAt: Date = new Date('1997-08-01');
   Posts: import('../../interface/Post').IPost[] = [];
   favPost: import('../../interface/Post').IPost[] = [];
-  likedPost: import('../../interface/Post').IPost[] = [];
-  id: string = '1';
+
   displayName: string = 'morfes';
   displayImage: string = 'https://source.unsplash.com/user/erondu';
   coverImage: string = '';

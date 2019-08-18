@@ -10,7 +10,7 @@ import { Field, withFormik, FormikProps } from 'formik';
 import { Container } from './styled/index';
 import * as Yup from 'yup';
 import { RouteComponentProps, Redirect } from 'react-router-dom';
-import { SIGN_UP } from '../mutation/index';
+import { SIGN_UP } from '../mutations/index';
 import { useMutation } from '@apollo/react-hooks';
 type Gender = 'male' | 'female' | 'unspecified';
 

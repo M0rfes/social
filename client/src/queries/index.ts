@@ -12,6 +12,19 @@ export const GET_ME = gql`
     me {
       name
       displayName
+      posts(pagination: { limit: 10 }) {
+        id
+        body
+        media {
+          url
+        }
+      }
     }
+  }
+`;
+
+export const IS_LOGIN = gql`
+  query IsLogin {
+    isLogin @client
   }
 `;

@@ -12,8 +12,7 @@ import * as Yup from 'yup';
 import { RouteComponentProps, Redirect } from 'react-router-dom';
 import { useApolloClient } from '@apollo/react-hooks';
 import { SIGN_IN } from '../queries/index';
-import { useContext } from 'react';
-import { AuthContext } from '../context/Auth.Context';
+import useLocalStorage from 'react-use-localstorage';
 interface SignInFormValues {
   email: string;
   password: string;
@@ -31,8 +30,8 @@ const SignIn: React.FC<
     email: iniEmail,
     password: '',
   });
+  const [, setToken] = useLocalStorage('token', undefined);
   const [ref, setRef] = useState(false);
-  const { setToken } = useContext(AuthContext);
   const client = useApolloClient();
   const { email, password } = formData;
   const handleChange = (e: any) => {
@@ -46,12 +45,11 @@ const SignIn: React.FC<
         query: SIGN_IN,
         variables: { data: { email, password } },
       });
-      console.log(data.login);
       setToken(data.login.token);
-      setRef(true);
       if (errors || !data.login) {
         throw errors;
       }
+      setRef(true);
     } catch {
       props.setErrors({
         email: 'invalid credentials',

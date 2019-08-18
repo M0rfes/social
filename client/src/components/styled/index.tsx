@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-export const Icon = styled.span<{
+export const Icon = styled.i<{
   primary?: boolean;
 }>`
   font-size: 3rem;

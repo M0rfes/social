@@ -10,5 +10,5 @@ export interface IPost {
   downVotes?: IUser[];
   totalUpVote: number;
   totalDownVote: number;
-  media?: Media;
+  media?: { type: Media; URL: string };
 }
