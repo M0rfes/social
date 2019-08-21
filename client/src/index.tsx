@@ -9,7 +9,7 @@ import { setContext } from 'apollo-link-context';
 import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { typeDefs, resolvers } from './resolvers/index';
-
+import './animate.css';
 const httpLink = createHttpLink({
   uri: 'http://localhost:4000/graphql',
 });

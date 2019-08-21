@@ -12,6 +12,9 @@ export const GET_ME = gql`
     me {
       name
       displayName
+      displayImage
+      numOfFollowing
+      numOfFollowers
       posts(pagination: { limit: 10 }) {
         id
         body

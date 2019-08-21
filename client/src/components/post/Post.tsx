@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { IPost } from '../interface/Post';
+import { IPost } from '../../interface/Post';
 import {
   PostContainer,
   PostBody,
@@ -8,14 +8,14 @@ import {
   PostHeader,
   PostFooter,
   PostIcon,
-} from './styled/post';
+} from '../styled/post';
 import {
   FaHeart,
   FaPencilAlt,
   FaBookmark,
   FaCommentDots,
 } from 'react-icons/fa';
-import { IUser } from '../interface/User';
+import { IUser } from '../../interface/User';
 interface Props {
   user: IUser;
   post: IPost;

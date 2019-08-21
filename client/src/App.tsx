@@ -7,16 +7,16 @@ import {
   Redirect,
 } from 'react-router-dom';
 import LoginSignUp from './components/LoginSignUp';
-import SignUP from './components/SignUP';
+import SignUP from './components/auth/SignUP';
 import { ThemeProvider } from 'styled-components';
-import SignIn from './components/SignIn';
+import SignIn from './components/auth/SignIn';
 import ProtectedRout from './components/auth/ProtectedRout';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import NavBar from './components/NavBar';
 import { IconContext } from 'react-icons';
 import { useQuery } from '@apollo/react-hooks';
 import { IS_LOGIN } from './queries/index';
-import Profile from './components/Profile';
+import Profile from './components/profile/Profile';
 // TODO: add theme context abd theme reducer
 const App: React.FC = () => {
   const { data } = useQuery(IS_LOGIN);

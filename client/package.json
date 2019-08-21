@@ -6,7 +6,6 @@
     "@apollo/react-hooks": "^3.0.0",
     "@types/yup": "^0.26.22",
     "animejs": "^3.1.0",
-    "apollo-boost": "^0.4.3",
     "apollo-cache-inmemory": "^1.6.3",
     "apollo-client": "^2.6.4",
     "apollo-link-context": "^1.0.18",
@@ -41,7 +40,6 @@
     "awesome-typescript-loader": "^5.2.1",
     "node-sass": "^4.12.0",
     "react-docgen-typescript-loader": "^3.1.1",
-    "storybook-react-demo": "^1.1.0",
     "ts-jest": "^24.0.2",
     "typescript": "^3.5.3"
   },

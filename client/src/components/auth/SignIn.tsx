@@ -5,13 +5,13 @@ import {
   SubmitButton,
   Errors,
   Background,
-} from './styled';
+} from '../styled';
 import { Field, withFormik, FormikProps } from 'formik';
-import { Container } from './styled/index';
+import { Container } from '../styled/index';
 import * as Yup from 'yup';
 import { RouteComponentProps, Redirect } from 'react-router-dom';
 import { useApolloClient } from '@apollo/react-hooks';
-import { SIGN_IN } from '../queries/index';
+import { SIGN_IN } from '../../queries/index';
 import useLocalStorage from 'react-use-localstorage';
 interface SignInFormValues {
   email: string;
