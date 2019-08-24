@@ -2,7 +2,6 @@ import React from 'react';
 import { Nav, NaveImage, ActionBar } from './styled/nave';
 import { Title, FlexWrapper, Icon } from './styled';
 import { FC } from 'react';
-import '../index.scss';
 
 import { FaHome, FaSearch, FaUserFriends, FaHeart } from 'react-icons/fa';
 import { Link } from 'react-router-dom';

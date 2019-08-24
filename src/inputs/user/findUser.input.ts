@@ -1,12 +1,14 @@
-import { InputType, Field } from 'type-graphql';
+import { InputType, Field, ID } from 'type-graphql';
 import { User } from '../../models/user.model';
 import { Length, IsEmail, IsDate, IsEnum } from 'class-validator';
-import { IsDisplayNameUnique } from '../../util/isDisplayNameUnique.validator';
-import { IsEmailUnique } from '../../util/isEmailUnique.validator';
 import { Gender } from '../../enums/genders.enum';
+import { Ref } from 'typegoose';
 
 @InputType()
 export class FindUserInput implements Partial<User> {
+  @Field(() => ID, { nullable: true })
+  id: Ref<User>;
+
   @Length(2, 255)
   @Field({ nullable: true })
   firstName: string;
@@ -16,12 +18,10 @@ export class FindUserInput implements Partial<User> {
   lastName: string;
 
   @Length(2, 255)
-  @IsDisplayNameUnique()
   @Field({ nullable: true })
   displayName: string;
 
   @IsEmail()
-  @IsEmailUnique()
   @Field({ nullable: true })
   email: string;
 

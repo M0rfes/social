@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import './index.scss';
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -57,12 +57,17 @@ const App: React.FC = () => {
         <IconContext.Provider value={{}}>
           <Router>
             <Switch>
-              <Route path="/" exact component={withAnimation(LoginSignUp)} />
+              <Route path="/" exact component={LoginSignUp} />
               <Route path="/signup" exact component={withAnimation(SignUP)} />
               <Route path="/signin" exact component={withAnimation(SignIn)} />
               <Route path="/signin/:email" component={withAnimation(SignIn)} />
               <ProtectedRout
                 path="/profile"
+                exact
+                component={withAnimation(Profile)}
+              />
+              <ProtectedRout
+                path="/profile/:id"
                 component={withAnimation(Profile)}
               />
               <Redirect to="/" />

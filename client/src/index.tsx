@@ -10,6 +10,42 @@ import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { typeDefs, resolvers } from './resolvers/index';
 import './animate.css';
+import { createGlobalStyle } from 'styled-components';
+const Global = createGlobalStyle`
+
+* {
+  box-sizing: border-box;
+  font-family: 'Courier New', Courier, monospace;
+  margin: 0;
+  padding: 0;
+}
+
+button {
+  border: 0;
+  cursor: pointer;
+  outline: none;
+}
+
+img {
+  height: 100;
+  width: 100;
+}
+a {
+  text-decoration: none;
+}
+input {
+  background: transparent;
+  border: 0;
+  outline: none;
+
+  &:hover,
+  &:active {
+    border: 0;
+    outline: none;
+  }
+}
+`;
+
 const httpLink = createHttpLink({
   uri: 'http://localhost:4000/graphql',
 });
@@ -34,6 +70,7 @@ console.log(client.cache);
 client.writeData({ data: { isLogin: !!localStorage.getItem('token') } });
 ReactDOM.render(
   <ApolloProvider client={client}>
+    <Global />
     <App />
   </ApolloProvider>,
 

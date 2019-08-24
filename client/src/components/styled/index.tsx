@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { animated } from 'react-spring';
 
 export const Icon = styled.i<{
   primary?: boolean;
@@ -15,7 +16,7 @@ export const Wrapper = styled.main`
     flex-flow: row-reverse;
   }
 `;
-export const Section = styled.section<{ primary?: boolean }>`
+export const Section = styled(animated.section)<{ primary?: boolean }>`
   text-align: center;
   background: ${prop => (prop.primary ? prop.theme.primary : '')};
   @media screen and (min-width: 1024px) {

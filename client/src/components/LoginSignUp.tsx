@@ -1,14 +1,36 @@
-import React, { FC, useContext, useEffect } from 'react';
+import React, { FC } from 'react';
 
 import { Wrapper, Section, Title, Lead, SLink, Icon } from './styled/index';
 import { FaTerminal, FaUserFriends, FaComment } from 'react-icons/fa';
 import { RouteComponentProps } from 'react-router';
-import { useSpring, animated } from 'react-spring';
+import { useSpring } from 'react-spring';
 
 const LoginSignUp: FC<RouteComponentProps> = () => {
+  const slidFromTop = useSpring({
+    from: {
+      transform: `translateY(-100vh)`,
+    },
+    to: {
+      transform: `translateY(0)`,
+    },
+    config: {
+      delay: 500,
+    },
+  });
+  const slidFromBottom = useSpring({
+    from: {
+      transform: `translateY(100vh)`,
+    },
+    to: {
+      transform: `translateY(0)`,
+    },
+    config: {
+      delay: 500,
+    },
+  });
   return (
     <Wrapper>
-      <Section>
+      <Section style={slidFromTop}>
         <Icon primary>
           <FaTerminal />
         </Icon>
@@ -21,7 +43,7 @@ const LoginSignUp: FC<RouteComponentProps> = () => {
           login
         </SLink>
       </Section>
-      <Section primary>
+      <Section primary style={slidFromBottom}>
         <Icon>
           <FaUserFriends />
         </Icon>

@@ -8,13 +8,19 @@ import Loader from '../Loader';
 interface Prop {
   component: ComponentType<any>;
   path: string;
+  exact?: boolean;
 }
-const ProtectedRout: React.FC<Prop> = ({ component: Component, ...rest }) => {
+const ProtectedRout: React.FC<Prop> = ({
+  component: Component,
+  exact,
+  ...rest
+}) => {
   const { loading, error, data } = useQuery<{ me: IUser }>(GET_ME);
 
   return (
     <Route
       {...rest}
+      exact={exact ? true : false}
       render={props => {
         if (error) {
           return (

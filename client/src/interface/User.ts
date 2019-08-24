@@ -13,11 +13,11 @@ export interface IUser {
   lastName: string;
   followers: IUser[];
   following: IUser[];
-  numberOfFollowers: number;
-  numberOfFollowing: number;
+  numOfFollowers: number;
+  numOfFollowing: number;
   DOB?: Date;
   createdAt: Date;
-  Posts: IPost[];
+  posts: IPost[];
   favPost: IPost[];
   likedPost: IPost[];
 }

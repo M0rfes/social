@@ -14,7 +14,10 @@ export function findOneResolver<T extends ClassType, X extends ClassType>(
   class BaseResolver {
     @Query(() => returnType, { name: `find${suffix}` })
     @UseMiddleware(...(middleware || []))
-    async findOne(@Arg('data', () => inputType) data: X) {
+    async findOne(@Arg('data', () => inputType) data: any) {
+      if (data.id) {
+        return await entity.findById(data.id);
+      }
       return await entity.findOne(data);
     }
   }
