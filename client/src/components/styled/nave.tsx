@@ -27,9 +27,9 @@ export const ActionBar = styled.div`
   display: flex;
   top: 0;
   z-index: 9;
-  border-bottom: ${props => props.theme.primary} solid 1px;
+  border-bottom: ${props => props.theme.dark} solid 1px;
   justify-content: space-evenly;
-  span {
+  i {
     font-size: 2rem;
   }
 `;

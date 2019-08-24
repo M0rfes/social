@@ -108,4 +108,8 @@ export const Container = styled.main`
   width: 80vw;
   margin: auto;
 `;
-export const Background = styled.div``;
+export const FlexWrapper = styled.div`
+  display: flex;
+  flex-flow: column;
+  height: 100vh;
+`;

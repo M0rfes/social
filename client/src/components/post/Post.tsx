@@ -20,6 +20,7 @@ interface Props {
   user: IUser;
   post: IPost;
 }
+
 const Post: FC<Props> = props => {
   return (
     <PostContainer>

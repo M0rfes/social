@@ -7,7 +7,7 @@ export interface IUser {
   displayImage: string;
   coverImage: string;
   bio: string;
-  gender?: Gender;
+  gender: Gender;
   name: string;
   firstName: string;
   lastName: string;

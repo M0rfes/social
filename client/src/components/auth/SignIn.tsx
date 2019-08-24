@@ -1,18 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
   InputContainer,
   Title,
   SubmitButton,
   Errors,
-  Background,
+  FlexWrapper,
 } from '../styled';
 import { Field, withFormik, FormikProps } from 'formik';
 import { Container } from '../styled/index';
 import * as Yup from 'yup';
 import { RouteComponentProps, Redirect } from 'react-router-dom';
-import { useApolloClient } from '@apollo/react-hooks';
-import { SIGN_IN } from '../../queries/index';
-import useLocalStorage from 'react-use-localstorage';
+import { useApolloClient, useQuery } from '@apollo/react-hooks';
+import { SIGN_IN, IS_LOGIN } from '../../queries/index';
+
+import { AuthContext } from '../../context/AuthContext';
+
 interface SignInFormValues {
   email: string;
   password: string;
@@ -22,15 +24,18 @@ interface SignInFormProps extends RouteComponentProps {
   email?: string;
   password?: string;
 }
+
 const SignIn: React.FC<
   FormikProps<SignInFormValues> & SignInFormProps
 > = props => {
+  const { data } = useQuery(IS_LOGIN);
+  console.log(data);
   const iniEmail = (props.match.params as any).email || '';
   const [formData, setFormVal] = useState<SignInFormValues>({
     email: iniEmail,
     password: '',
   });
-  const [, setToken] = useLocalStorage('token', undefined);
+  const { setToken } = useContext(AuthContext);
   const [ref, setRef] = useState(false);
   const client = useApolloClient();
   const { email, password } = formData;
@@ -38,18 +43,23 @@ const SignIn: React.FC<
     props.handleChange(e);
     setFormVal({ ...formData, [e.target.name]: e.target.value });
   };
+
   const handelSubmit = async (e: any) => {
     props.handleSubmit(e);
     try {
-      const { data, errors } = await client.query({
+      const { data, errors, loading } = await client.query({
         query: SIGN_IN,
         variables: { data: { email, password } },
       });
-      setToken(data.login.token);
+      props.setStatus({
+        loading,
+      });
       if (errors || !data.login) {
         throw errors;
       }
+      setToken(data.login.token);
       setRef(true);
+      props.history.push('/profile');
     } catch {
       props.setErrors({
         email: 'invalid credentials',
@@ -61,8 +71,11 @@ const SignIn: React.FC<
   if (ref) {
     return <Redirect to={from} />;
   }
+  if (data.isLogin) {
+    return <Redirect to="/profile" />;
+  }
   return (
-    <Background>
+    <FlexWrapper>
       <Title>Login</Title>
       <Container>
         <form onSubmit={handelSubmit}>
@@ -99,7 +112,7 @@ const SignIn: React.FC<
           </SubmitButton>
         </form>
       </Container>
-    </Background>
+    </FlexWrapper>
   );
 };
 

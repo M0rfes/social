@@ -4,7 +4,7 @@ import {
   Title,
   SubmitButton,
   Errors,
-  Background,
+  FlexWrapper,
 } from '../styled';
 import { Field, withFormik, FormikProps } from 'formik';
 import { Container } from '../styled/index';
@@ -32,6 +32,7 @@ interface SignUpFormProps extends RouteComponentProps {
   password?: string;
   gender?: string;
 }
+
 const SignUP: React.FC<
   FormikProps<SignUpFormValues> & SignUpFormProps
 > = props => {
@@ -75,7 +76,7 @@ const SignUP: React.FC<
     }
   };
   return (
-    <Background>
+    <FlexWrapper>
       <Title>Create your account</Title>
       <Container>
         <form onSubmit={handelSubmit}>
@@ -165,7 +166,12 @@ const SignUP: React.FC<
           )}
           <InputContainer>
             <label>Gender</label>
-            <Field component="select" name="gender" value={gender}>
+            <Field
+              component="select"
+              name="gender"
+              value={gender}
+              onChange={handleChange}
+            >
               <option value="male">male</option>
               <option value="female">Female</option>
               <option value="unspecified">unspecified</option>
@@ -176,7 +182,7 @@ const SignUP: React.FC<
           </SubmitButton>
         </form>
       </Container>
-    </Background>
+    </FlexWrapper>
   );
 };
 const signUpSchema = Yup.object<SignUpFormValues>({

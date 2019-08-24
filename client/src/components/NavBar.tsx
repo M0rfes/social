@@ -1,6 +1,6 @@
 import React from 'react';
 import { Nav, NaveImage, ActionBar } from './styled/nave';
-import { Title, Background, Icon } from './styled';
+import { Title, FlexWrapper, Icon } from './styled';
 import { FC } from 'react';
 import '../index.scss';
 
@@ -14,7 +14,7 @@ interface NavProp {
 
 const NavBar: FC<NavProp> = props => {
   return (
-    <>
+    <div>
       <Nav>
         <Link to="profile">
           <NaveImage src={props.user.displayImage} />
@@ -43,7 +43,7 @@ const NavBar: FC<NavProp> = props => {
           </Icon>
         </Link>
       </ActionBar>
-    </>
+    </div>
   );
 };
 

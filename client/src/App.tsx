@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import './index.scss';
 import {
   BrowserRouter as Router,
@@ -11,16 +11,35 @@ import SignUP from './components/auth/SignUP';
 import { ThemeProvider } from 'styled-components';
 import SignIn from './components/auth/SignIn';
 import ProtectedRout from './components/auth/ProtectedRout';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
-import NavBar from './components/NavBar';
 import { IconContext } from 'react-icons';
-import { useQuery } from '@apollo/react-hooks';
-import { IS_LOGIN } from './queries/index';
+
 import Profile from './components/profile/Profile';
-// TODO: add theme context abd theme reducer
+import AppContext from './context';
+import { useSpring, animated, config } from 'react-spring';
+import { RouteComponentProps } from 'react-router-dom';
+// TODO: add theme context and theme reducer
+
+const withAnimation = (Component: any) => {
+  const Animated: FC<RouteComponentProps> = props => {
+    const anim = useSpring({
+      from: {
+        opacity: 0.1,
+      },
+      to: {
+        opacity: 1,
+      },
+      config: config.wobbly,
+    });
+    return (
+      <animated.div style={anim}>
+        <Component {...props} />
+      </animated.div>
+    );
+  };
+  return Animated;
+};
+
 const App: React.FC = () => {
-  const { data } = useQuery(IS_LOGIN);
-  console.log(data);
   const theme = {
     primary: '#38a1f3',
     primaryDarker: '#2875b0',
@@ -33,34 +52,25 @@ const App: React.FC = () => {
     dark: '#010101',
   };
   return (
-    <ThemeProvider theme={theme}>
-      <IconContext.Provider value={{}}>
-        <Router>
-          <Route
-            path="/"
-            render={({ location }) => (
-              <TransitionGroup>
-                <CSSTransition
-                  classNames="fade"
-                  timeout={300}
-                  key={location.key}
-                >
-                  <Switch location={location}>
-                    <Route path="/" exact component={LoginSignUp} />
-                    <Route path="/signup" exact component={SignUP} />
-                    <Route path="/signin" exact component={SignIn} />
-                    <Route path="/signin/:email" component={SignIn} />
-
-                    <ProtectedRout path="/profile" component={Profile} />
-                    <Redirect to="/" />
-                  </Switch>
-                </CSSTransition>
-              </TransitionGroup>
-            )}
-          />
-        </Router>
-      </IconContext.Provider>
-    </ThemeProvider>
+    <AppContext>
+      <ThemeProvider theme={theme}>
+        <IconContext.Provider value={{}}>
+          <Router>
+            <Switch>
+              <Route path="/" exact component={withAnimation(LoginSignUp)} />
+              <Route path="/signup" exact component={withAnimation(SignUP)} />
+              <Route path="/signin" exact component={withAnimation(SignIn)} />
+              <Route path="/signin/:email" component={withAnimation(SignIn)} />
+              <ProtectedRout
+                path="/profile"
+                component={withAnimation(Profile)}
+              />
+              <Redirect to="/" />
+            </Switch>
+          </Router>
+        </IconContext.Provider>
+      </ThemeProvider>
+    </AppContext>
   );
 };
 

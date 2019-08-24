@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { FC, useContext, useEffect } from 'react';
 
 import { Wrapper, Section, Title, Lead, SLink, Icon } from './styled/index';
 import { FaTerminal, FaUserFriends, FaComment } from 'react-icons/fa';
+import { RouteComponentProps } from 'react-router';
+import { useSpring, animated } from 'react-spring';
 
-const LoginSignUp = () => {
-  console.log();
+const LoginSignUp: FC<RouteComponentProps> = () => {
   return (
     <Wrapper>
       <Section>
