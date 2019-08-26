@@ -3,7 +3,6 @@ import { Redirect, Route } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { GET_ME } from '../../queries/index';
 import { IUser } from '../../interface/User';
-import Loader from '../Loader';
 
 interface Prop {
   component: ComponentType<any>;
@@ -33,7 +32,7 @@ const ProtectedRout: React.FC<Prop> = ({
           );
         } else {
           return loading ? (
-            <Loader />
+            <h1>loading...</h1>
           ) : (
             <Component {...props} user={data!.me} />
           );

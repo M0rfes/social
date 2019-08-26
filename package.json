@@ -6,7 +6,7 @@
   "scripts": {
     "server": "clear && ts-node-dev src/index.ts",
     "client": "npm start --prefix client",
-    "start": "concurrently \"npm run server\" \"npm run client\""
+    "start": "concurrently \"npm run server\" \"npm run client\" \" npm run watch:css --prefix client\""
   },
   "keywords": [],
   "author": "",
