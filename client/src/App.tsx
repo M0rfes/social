@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React from 'react';
 
 import {
   BrowserRouter as Router,
@@ -10,35 +10,22 @@ import {
 import { IconContext } from 'react-icons';
 
 import AppContext from './context';
-import { useSpring, animated, config } from 'react-spring';
-import { RouteComponentProps } from 'react-router-dom';
-// TODO: add theme context and theme reducer
-
-const withAnimation = (Component: any) => {
-  const Animated: FC<RouteComponentProps> = props => {
-    const anim = useSpring({
-      from: {
-        opacity: 0.1,
-      },
-      to: {
-        opacity: 1,
-      },
-      config: config.wobbly,
-    });
-    return (
-      <animated.div style={anim}>
-        <Component {...props} />
-      </animated.div>
-    );
-  };
-  return Animated;
-};
+import SignIn from './components/auth/SignIn';
+import SignUp from './components/auth/SignUp';
 
 const App: React.FC = () => {
   return (
     <AppContext>
       <IconContext.Provider value={{}}>
-        <h1 className=" h-16 w-16 bg-gray-200 border border-gray-300">hello</h1>
+        <div className="container bg-gray-100 h-screen w-screen max-w-full">
+          <Router>
+            <Switch>
+              <Route path="/" exact component={SignIn} />
+              <Route path="/signup" exact component={SignUp} />
+              <Redirect to="/" />
+            </Switch>
+          </Router>
+        </div>
       </IconContext.Provider>
     </AppContext>
   );

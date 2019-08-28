@@ -5,3 +5,10 @@
 @tailwind utilities;
 
 /* Your custom CSS here */
+a,
+button {
+  cursor: pointer;
+}
+a {
+  @apply .text-blue-400;
+}
