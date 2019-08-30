@@ -22,12 +22,12 @@ const SignIn: FC<FormikProps<FormValues>> = props => {
   const { handleSubmit: HS, isValid, setErrors } = props;
   const animation = useSpring({
     from: {
-      transform: "translateX(-100vw)"
+      transform: "translateX(-100vw)",
     },
     to: {
-      transform: "translate(0)"
+      transform: "translate(0)",
     },
-    config: config.wobbly
+    config: config.wobbly,
   });
   const [submit, { data, loading, error }] = useLazyQuery(SIGN_IN);
   const [, setToken] = useLocalStorage("token", undefined);
@@ -43,20 +43,20 @@ const SignIn: FC<FormikProps<FormValues>> = props => {
       } else {
         setErrors({
           email: "invalid credentials",
-          password: "invalid credentials"
+          password: "invalid credentials",
         });
       }
       // TODO: redrict to App
     }
   }, [data]);
   return (
-    <animated.div style={animation}>
+    <animated.div style={animation} className="h-screen">
       <div className="pt-6 flex  flex justify-center  w-full text-5xl text-blue-400 ">
         <FaTerminal />
       </div>
 
       <form
-        className="mt-10 border w-10/12 max-w-lg m-auto border-solid border-black-300 shadow p-4 text-center"
+        className="mt-10 border w-10/12 max-w-lg m-auto border-solid border-black-300 shadow p-4 text-center bg-white"
         onSubmit={handelSubmit}
       >
         <Field
@@ -80,9 +80,7 @@ const SignIn: FC<FormikProps<FormValues>> = props => {
                   className={`block form-input mt-2  w-full ${error}`}
                   {...field}
                 />
-                {form.touched.email && form.errors.email && (
-                  <Errors>{form.errors.email}</Errors>
-                )}
+                {error && <Errors>{form.errors.email}</Errors>}
               </>
             );
           }}
@@ -108,9 +106,7 @@ const SignIn: FC<FormikProps<FormValues>> = props => {
                   className={`block form-input mt-2 focus:outline-none w-full ${error}`}
                   {...field}
                 />
-                {form.touched.password && form.errors.password && (
-                  <Errors>{form.errors.password}</Errors>
-                )}
+                {error && <Errors>{form.errors.password}</Errors>}
               </>
             );
           }}
@@ -149,7 +145,7 @@ export default withFormik<{}, FormValues>({
       .required(),
     password: Yup.string()
       .min(6)
-      .required()
+      .required(),
   }),
-  handleSubmit(_) {}
+  handleSubmit(_) {},
 })(SignIn);
