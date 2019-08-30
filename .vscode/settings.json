@@ -1,5 +1,8 @@
 {
   "cSpell.words": ["Formik", "Lonog", "Typegoose", "signup"],
 
-  "scss.validate": false
+  "scss.validate": false,
+  "css.remoteStyleSheets": [
+    "https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css"
+  ]
 }

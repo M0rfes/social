@@ -1,14 +1,15 @@
-import React, { FC, useState, useEffect } from 'react';
-import { useSpring, animated, config } from 'react-spring';
-import { FaTerminal } from 'react-icons/fa';
-import { Link, RouteComponentProps } from 'react-router-dom';
-import { withFormik, FormikProps, Field, FieldProps } from 'formik';
-import * as Yup from 'yup';
-import { useLazyQuery } from '@apollo/react-hooks';
-import useLocalStorage from 'react-use-localstorage';
+import React, { FC, useState, useEffect } from "react";
+import { useSpring, animated, config } from "react-spring";
+import { FaTerminal } from "react-icons/fa";
+import { Link, RouteComponentProps } from "react-router-dom";
+import { withFormik, FormikProps, Field, FieldProps } from "formik";
+import * as Yup from "yup";
+import { useLazyQuery } from "@apollo/react-hooks";
+import useLocalStorage from "react-use-localstorage";
 
-import './SignIn.css';
-import { SIGN_IN } from '../../queries/index';
+import "./SignIn.css";
+import { SIGN_IN } from "../../queries/index";
+import Errors from "../utils/Errors";
 
 interface FormValues {
   email: string;
@@ -16,22 +17,23 @@ interface FormValues {
 }
 
 const SignIn: FC<FormikProps<FormValues>> = props => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const { handleSubmit, isValid, setErrors } = props;
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { handleSubmit: HS, isValid, setErrors } = props;
   const animation = useSpring({
     from: {
-      transform: 'translateX(-100vw)',
+      transform: "translateX(-100vw)"
     },
     to: {
-      transform: 'translate(0)',
+      transform: "translate(0)"
     },
-    config: config.wobbly,
+    config: config.wobbly
   });
   const [submit, { data, loading, error }] = useLazyQuery(SIGN_IN);
-  const [, setToken] = useLocalStorage('token', undefined);
+  const [, setToken] = useLocalStorage("token", undefined);
   const handelSubmit = (e: any) => {
     e.preventDefault();
+    HS(e);
     submit({ variables: { data: { email, password } } });
   };
   useEffect(() => {
@@ -40,8 +42,8 @@ const SignIn: FC<FormikProps<FormValues>> = props => {
         setToken(data.login.token);
       } else {
         setErrors({
-          email: 'invalid credentials',
-          password: 'invalid credentials',
+          email: "invalid credentials",
+          password: "invalid credentials"
         });
       }
       // TODO: redrict to App
@@ -63,8 +65,8 @@ const SignIn: FC<FormikProps<FormValues>> = props => {
             setEmail(field.value);
             const error =
               form.dirty && form.touched.email && form.errors.email
-                ? 'border border-solid border-red-600 text-red-600 bg-red-100'
-                : '';
+                ? "border border-solid border-red-600 text-red-600 bg-red-100"
+                : "";
             return (
               <>
                 <label htmlFor="userEmail" className="block mt-4">
@@ -78,6 +80,9 @@ const SignIn: FC<FormikProps<FormValues>> = props => {
                   className={`block form-input mt-2  w-full ${error}`}
                   {...field}
                 />
+                {form.touched.email && form.errors.email && (
+                  <Errors>{form.errors.email}</Errors>
+                )}
               </>
             );
           }}
@@ -88,13 +93,13 @@ const SignIn: FC<FormikProps<FormValues>> = props => {
             setPassword(field.value);
             const error =
               form.dirty && form.touched.password && form.errors.password
-                ? 'border border-solid border-red-600 text-red-600 bg-red-100'
-                : '';
+                ? "border border-solid border-red-600 text-red-600 bg-red-100"
+                : "";
 
             return (
               <>
                 <label htmlFor="password" className="block mt-4">
-                  Email
+                  Password
                 </label>
                 <input
                   type="password"
@@ -103,6 +108,9 @@ const SignIn: FC<FormikProps<FormValues>> = props => {
                   className={`block form-input mt-2 focus:outline-none w-full ${error}`}
                   {...field}
                 />
+                {form.touched.password && form.errors.password && (
+                  <Errors>{form.errors.password}</Errors>
+                )}
               </>
             );
           }}
@@ -112,7 +120,7 @@ const SignIn: FC<FormikProps<FormValues>> = props => {
           <button
             type="submit"
             className={`py-4 px-3 rounded-lg border border-solid border-black-100 shadow focus:outline-none ${
-              isValid ? '' : 'opacity-50 cursor-not-allowed'
+              isValid ? "" : "opacity-50 cursor-not-allowed"
             }`}
             disabled={!isValid}
           >
@@ -141,7 +149,7 @@ export default withFormik<{}, FormValues>({
       .required(),
     password: Yup.string()
       .min(6)
-      .required(),
+      .required()
   }),
-  handleSubmit(_) {},
+  handleSubmit(_) {}
 })(SignIn);
