@@ -1,11 +1,10 @@
 import React, { FC, useState, useEffect } from "react";
 import { useSpring, animated, config } from "react-spring";
 import { FaTerminal } from "react-icons/fa";
-import { Link, RouteComponentProps } from "react-router-dom";
+import { Link, RouteComponentProps, Redirect } from "react-router-dom";
 import { withFormik, FormikProps, Field, FieldProps } from "formik";
 import * as Yup from "yup";
 import { useMutation } from "@apollo/react-hooks";
-import useLocalStorage from "react-use-localstorage";
 
 import "./SignIn.css";
 import { SIGN_UP } from "../../mutations/index";
@@ -27,7 +26,7 @@ interface FormValues {
   gender?: Gender;
 }
 
-const SignIn: FC<FormikProps<FormValues>> = props => {
+const SignIn: FC<FormikProps<FormValues> & RouteComponentProps> = props => {
   const { handleSubmit: HS, isValid, setErrors, values } = props;
   const [email, setEmail] = useState("");
   const [displayName, setDisplayName] = useState("");
@@ -46,7 +45,7 @@ const SignIn: FC<FormikProps<FormValues>> = props => {
     config: config.wobbly,
   });
   const [signIn, { data }] = useMutation(SIGN_UP);
-  const [, setToken] = useLocalStorage("token", undefined);
+
   const handelSubmit = (e: any) => {
     e.preventDefault();
     HS(e);
@@ -62,15 +61,14 @@ const SignIn: FC<FormikProps<FormValues>> = props => {
   };
   useEffect(() => {
     if (data) {
-      if (data.login) {
-        setToken(data.login.token);
+      if (data.createUser) {
+        props.history.push(`/${data.createUser.id}`);
       } else {
         setErrors({
-          email: "invalid credentials",
-          password: "invalid credentials",
+          email: "Email or Display Name already exist",
+          displayName: "Email or Display Name already exist",
         });
       }
-      // TODO: redrict to App
     }
   }, [data]);
   return (
@@ -80,7 +78,7 @@ const SignIn: FC<FormikProps<FormValues>> = props => {
       </div>
 
       <form
-        className="mt-10 border w-10/12 max-w-lg m-auto border-solid border-black-300 shadow p-4 text-center bg-white"
+        className="grid mt-10 border w-10/12 max-w-lg m-auto border-solid border-black-300 shadow p-4 text-center bg-white lg:max-w-6xl lg:w-11/12"
         onSubmit={handelSubmit}
       >
         <Field
@@ -97,14 +95,16 @@ const SignIn: FC<FormikProps<FormValues>> = props => {
                 <label htmlFor="displayName" className="block mt-4">
                   Display Name
                 </label>
-                <input
-                  type="text"
-                  required
-                  id="displayName"
-                  className={`block form-input mt-2  w-full ${error}`}
-                  {...field}
-                />
-                {error && <Errors>{form.errors.displayName}</Errors>}
+                <div>
+                  <input
+                    type="text"
+                    required
+                    id="displayName"
+                    className={`block form-input mt-2  w-full ${error}`}
+                    {...field}
+                  />
+                  {error && <Errors>{form.errors.displayName}</Errors>}
+                </div>
               </>
             );
           }}
@@ -122,14 +122,16 @@ const SignIn: FC<FormikProps<FormValues>> = props => {
                 <label htmlFor="firstName" className="block mt-4">
                   First Name
                 </label>
-                <input
-                  type="text"
-                  required
-                  id="firstName"
-                  className={`block form-input mt-2  w-full ${error}`}
-                  {...field}
-                />
-                {error && <Errors>{form.errors.firstName}</Errors>}
+                <div>
+                  <input
+                    type="text"
+                    required
+                    id="firstName"
+                    className={`block form-input mt-2  w-full ${error}`}
+                    {...field}
+                  />
+                  {error && <Errors>{form.errors.firstName}</Errors>}
+                </div>
               </>
             );
           }}
@@ -147,14 +149,16 @@ const SignIn: FC<FormikProps<FormValues>> = props => {
                 <label htmlFor="lastName" className="block mt-4">
                   Last Name
                 </label>
-                <input
-                  type="text"
-                  required
-                  id="lastName"
-                  className={`block form-input mt-2  w-full ${error}`}
-                  {...field}
-                />
-                {error && <Errors>{form.errors.lastName}</Errors>}
+                <div>
+                  <input
+                    type="text"
+                    required
+                    id="lastName"
+                    className={`block form-input mt-2  w-full ${error}`}
+                    {...field}
+                  />
+                  {error && <Errors>{form.errors.lastName}</Errors>}
+                </div>
               </>
             );
           }}
@@ -172,17 +176,19 @@ const SignIn: FC<FormikProps<FormValues>> = props => {
                 <label htmlFor="userEmail" className="block mt-4">
                   Email
                 </label>
-                <input
-                  type="email"
-                  required
-                  name="email"
-                  id="userEmail"
-                  className={`block form-input mt-2  w-full ${error}`}
-                  {...field}
-                />
-                {form.touched.email && form.errors.email && (
-                  <Errors>{form.errors.email}</Errors>
-                )}
+                <div>
+                  <input
+                    type="email"
+                    required
+                    name="email"
+                    id="userEmail"
+                    className={`block form-input mt-2  w-full ${error}`}
+                    {...field}
+                  />
+                  {form.touched.email && form.errors.email && (
+                    <Errors>{form.errors.email}</Errors>
+                  )}
+                </div>
               </>
             );
           }}
@@ -192,7 +198,7 @@ const SignIn: FC<FormikProps<FormValues>> = props => {
           render={({ form, field }: FieldProps<FormValues>) => {
             setPassword(field.value);
             const error =
-              form.dirty && form.touched.email && form.errors.email
+              form.dirty && form.touched.password && form.errors.password
                 ? "border border-solid border-red-600 text-red-600 bg-red-100"
                 : "";
             return (
@@ -200,16 +206,16 @@ const SignIn: FC<FormikProps<FormValues>> = props => {
                 <label htmlFor="password" className="block mt-4">
                   Password
                 </label>
-                <input
-                  type="password"
-                  required
-                  id="password"
-                  className={`block form-input mt-2  w-full ${error}`}
-                  {...field}
-                />
-                {form.touched.email && form.errors.email && (
-                  <Errors>{form.errors.email}</Errors>
-                )}
+                <div>
+                  <input
+                    type="password"
+                    required
+                    id="password"
+                    className={`block form-input mt-2  w-full ${error}`}
+                    {...field}
+                  />
+                  {error && <Errors>{form.errors.password}</Errors>}
+                </div>
               </>
             );
           }}
@@ -218,7 +224,7 @@ const SignIn: FC<FormikProps<FormValues>> = props => {
           name="cPassword"
           render={({ form, field }: FieldProps<FormValues>) => {
             const error =
-              form.dirty && form.touched.password && form.errors.password
+              form.dirty && form.touched.cPassword && form.errors.cPassword
                 ? "border border-solid border-red-600 text-red-600 bg-red-100"
                 : "";
 
@@ -227,46 +233,49 @@ const SignIn: FC<FormikProps<FormValues>> = props => {
                 <label htmlFor="cPassword" className="block mt-4">
                   Conform Password
                 </label>
-                <input
-                  type="password"
-                  required
-                  id="cPassword"
-                  className={`block form-input mt-2 focus:outline-none w-full ${error}`}
-                  {...field}
-                />
-                {form.touched.password && form.errors.password && (
-                  <Errors>{form.errors.password}</Errors>
-                )}
+                <div>
+                  <input
+                    type="password"
+                    required
+                    id="cPassword"
+                    className={`block form-input mt-2 focus:outline-none w-full ${error}`}
+                    {...field}
+                  />
+                  {error && <Errors>{form.errors.cPassword}</Errors>}
+                </div>
               </>
             );
           }}
         />
-        <Field
-          name="gender"
-          render={({ form, field }: FieldProps<FormValues>) => {
-            return genders.map(gender => (
-              <div className="">
-                <label
-                  className="inline-flex items-center justify-between"
-                  key={gender}
-                >
-                  <span className="">{gender}</span>
-                  <input
-                    type="checkbox"
-                    className="sr-only"
-                    checked={gender === sGender}
-                    onChange={() => setGender(gender)}
-                  />
-                  <span
-                    className="form-checkbox text-blue-400"
-                    aria-hidden="true"
-                  ></span>
-                </label>
-              </div>
-            ));
-          }}
-        />
-        <div className="flex justify-between content-center my-4">
+        <div className="span-full my-4 flex justify-around">
+          <Field
+            name="gender"
+            render={({ form, field }: FieldProps<FormValues>) => {
+              return genders.map(gender => (
+                <div className="inline-block " key={gender}>
+                  <label
+                    className="inline-flex items-center justify-between"
+                    key={gender}
+                  >
+                    <span className="mr-1">{gender}</span>
+                    <input
+                      type="checkbox"
+                      className="sr-only mr-1"
+                      checked={gender === sGender}
+                      {...field}
+                      onChange={() => setGender(gender)}
+                    />
+                    <span
+                      className="form-checkbox text-blue-400"
+                      aria-hidden="true"
+                    ></span>
+                  </label>
+                </div>
+              ));
+            }}
+          />
+        </div>
+        <div className="flex justify-between content-center my-4 span-full">
           <button
             type="submit"
             className={`py-4 px-3 rounded-lg border border-solid border-black-100 shadow focus:outline-none w-full ${
@@ -278,7 +287,7 @@ const SignIn: FC<FormikProps<FormValues>> = props => {
           </button>
         </div>
       </form>
-      <div className="mt-5 text-center">
+      <div className="my-5 text-center">
         <Link to="/">Already a user Login? Signin</Link>
       </div>
     </animated.div>
@@ -294,6 +303,7 @@ export default withFormik<{}, FormValues>({
     if (form.password !== form.cPassword) {
       return {
         password: "password and conform password must match",
+        cPassword: "password and conform password must match",
       };
     }
   },
@@ -309,7 +319,7 @@ export default withFormik<{}, FormValues>({
       .required(),
     cPassword: Yup.string()
       .min(6)
-      .required(),
+      .required("conform password is required"),
     firstName: Yup.string()
       .min(2)
       .required(),
@@ -326,4 +336,4 @@ export default withFormik<{}, FormValues>({
     };
   },
   handleSubmit(_) {},
-})(SignIn);
+})(SignIn as any);

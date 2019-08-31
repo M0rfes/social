@@ -1,8 +1,8 @@
-import React, { ComponentType } from 'react';
-import { Redirect, Route } from 'react-router-dom';
-import { useQuery, useMutation } from '@apollo/react-hooks';
-import { GET_ME } from '../../queries/index';
-import { IUser } from '../../interface/User';
+import React, { ComponentType } from "react";
+import { Redirect, Route } from "react-router-dom";
+import { useQuery } from "@apollo/react-hooks";
+import { GET_ME } from "../../queries/index";
+import { IUser } from "../../interface/User";
 
 interface Prop {
   component: ComponentType<any>;
@@ -21,11 +21,11 @@ const ProtectedRout: React.FC<Prop> = ({
       {...rest}
       exact={exact ? true : false}
       render={props => {
-        if (error) {
+        if (error && !data) {
           return (
             <Redirect
               to={{
-                pathname: '/signin',
+                pathname: "/",
                 state: { from: props.location },
               }}
             />

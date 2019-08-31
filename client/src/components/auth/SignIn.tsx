@@ -1,22 +1,22 @@
-import React, { FC, useState, useEffect } from "react";
+import React, { FC, useState, useEffect, useContext } from "react";
 import { useSpring, animated, config } from "react-spring";
 import { FaTerminal } from "react-icons/fa";
-import { Link, RouteComponentProps } from "react-router-dom";
+import { Link, RouteComponentProps, Redirect } from "react-router-dom";
 import { withFormik, FormikProps, Field, FieldProps } from "formik";
 import * as Yup from "yup";
 import { useLazyQuery } from "@apollo/react-hooks";
-import useLocalStorage from "react-use-localstorage";
 
 import "./SignIn.css";
 import { SIGN_IN } from "../../queries/index";
 import Errors from "../utils/Errors";
+import { AuthContext } from "../../context/AuthContext";
 
 interface FormValues {
   email: string;
   password: string;
 }
 
-const SignIn: FC<FormikProps<FormValues>> = props => {
+const SignIn: FC<FormikProps<FormValues> & RouteComponentProps> = props => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { handleSubmit: HS, isValid, setErrors } = props;
@@ -29,14 +29,16 @@ const SignIn: FC<FormikProps<FormValues>> = props => {
     },
     config: config.wobbly,
   });
+  const id = (props.match.params as any).id;
   const [submit, { data, loading, error }] = useLazyQuery(SIGN_IN);
-  const [, setToken] = useLocalStorage("token", undefined);
+  const { setToken } = useContext(AuthContext);
   const handelSubmit = (e: any) => {
     e.preventDefault();
     HS(e);
     submit({ variables: { data: { email, password } } });
   };
   useEffect(() => {
+    console.log(data);
     if (data) {
       if (data.login) {
         setToken(data.login.token);
@@ -46,7 +48,12 @@ const SignIn: FC<FormikProps<FormValues>> = props => {
           password: "invalid credentials",
         });
       }
-      // TODO: redrict to App
+      if (id) {
+        props.history.push("/me/edit");
+      } else {
+        //TODO : LookUp Protected Router example
+        props.history.push("app");
+      }
     }
   }, [data]);
   return (
@@ -79,6 +86,7 @@ const SignIn: FC<FormikProps<FormValues>> = props => {
                   id="userEmail"
                   className={`block form-input mt-2  w-full ${error}`}
                   {...field}
+                  autoComplete="current-email"
                 />
                 {error && <Errors>{form.errors.email}</Errors>}
               </>
@@ -104,6 +112,7 @@ const SignIn: FC<FormikProps<FormValues>> = props => {
                   required
                   id="password"
                   className={`block form-input mt-2 focus:outline-none w-full ${error}`}
+                  autoComplete="current-password"
                   {...field}
                 />
                 {error && <Errors>{form.errors.password}</Errors>}
@@ -148,4 +157,4 @@ export default withFormik<{}, FormValues>({
       .required(),
   }),
   handleSubmit(_) {},
-})(SignIn);
+})(SignIn as any);
