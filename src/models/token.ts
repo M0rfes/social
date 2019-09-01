@@ -7,7 +7,7 @@ export class Token extends Typegoose {
   token: string;
 
   @prop({ default: new Date(), expires: 48 * 60 * 60, index: true })
-  createdAt: Date;
+  createdAt?: Date;
 }
 
 export const InvalidTokens = new Token().getModelForClass(Token, {

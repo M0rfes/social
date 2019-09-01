@@ -5,15 +5,15 @@ import {
   Root,
   Resolver,
   UseMiddleware,
-} from 'type-graphql';
-import { User, UserModel } from '../../models/user.model';
-import { MyContext } from '../../shared/myContext';
-import { auth } from '../../middlewares/auth.middleware';
-import { Post, PostModel } from '../../models/post.model';
-import { Ref } from 'typegoose';
-import { Arg } from 'type-graphql';
-import { PaginationInput } from '../../inputs/pagination.input';
-import { InvalidTokens } from '../../models/token';
+} from "type-graphql";
+import { User, UserModel } from "../../models/user.model";
+import { MyContext } from "../../shared/myContext";
+import { auth } from "../../middlewares/auth.middleware";
+import { Post, PostModel } from "../../models/post.model";
+import { Ref } from "typegoose";
+import { Arg } from "type-graphql";
+import { PaginationInput } from "../../inputs/pagination.input";
+import { InvalidTokens } from "../../models/token";
 @Resolver(User)
 export class UserResolver {
   @UseMiddleware(auth)
@@ -51,11 +51,11 @@ export class UserResolver {
   @FieldResolver(() => [Post])
   async likedPosts(
     @Root() { _doc: { _id } }: { _doc: { _id: Ref<User> } },
-    @Arg('pagination', { nullable: true }) pagination: PaginationInput,
+    @Arg("pagination", { nullable: true }) pagination: PaginationInput,
   ) {
     console.log(_id);
     const posts = await PostModel.find({}, {}, pagination)
-      .where('upVote')
+      .where("upVote")
       .equals(_id);
     return posts;
   }
@@ -63,7 +63,7 @@ export class UserResolver {
   @FieldResolver(() => [Post])
   async posts(
     @Root() { _doc: { _id } }: { _doc: { _id: Ref<User> } },
-    @Arg('pagination', { nullable: true }) pagination: PaginationInput,
+    @Arg("pagination", { nullable: true }) pagination: PaginationInput,
   ) {
     const posts = await PostModel.find({ from: _id }, {}, pagination);
     return posts;
@@ -71,8 +71,8 @@ export class UserResolver {
   @UseMiddleware(auth)
   @Query(() => Boolean)
   async logout(@Ctx() { req }: MyContext): Promise<boolean> {
-    const token = req.header('x-auth-token');
-    const tok = new InvalidTokens({ int: token });
+    const token = req.header("x-auth-token");
+    const tok = new InvalidTokens({ token });
     await tok.save();
     return true;
   }
