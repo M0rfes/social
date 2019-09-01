@@ -1,11 +1,11 @@
-import { prop, Typegoose, Ref, arrayProp, pre } from 'typegoose';
-import { ObjectType, Field, ID, Root } from 'type-graphql';
-import { Gender } from '../enums/genders.enum';
-import { genSalt, hash } from 'bcryptjs';
-import { Post } from './post.model';
+import { prop, Typegoose, Ref, arrayProp, pre } from "typegoose";
+import { ObjectType, Field, ID, Root } from "type-graphql";
+import { Gender } from "../enums/genders.enum";
+import { genSalt, hash } from "bcryptjs";
+import { Post } from "./post.model";
 
-@pre<User>('save', function(next) {
-  if (!this.isModified('password')) {
+@pre<User>("save", function(next) {
+  if (!this.isModified("password")) {
     next();
   }
   genSalt(10)
@@ -33,14 +33,14 @@ export class User extends Typegoose {
   readonly displayName: string;
 
   @Field()
-  @prop({ required: true, unique: true, index: true })
+  @prop({ required: true, unique: true })
   readonly email: string;
 
   @prop({ required: true })
   password: string;
 
   @Field(() => Date, { nullable: true })
-  @prop({ index: true }) // YYYY-MM-DD
+  @prop({}) // YYYY-MM-DD
   readonly DOB?: Date;
 
   @Field(() => Gender)
@@ -48,22 +48,22 @@ export class User extends Typegoose {
   gender?: Gender;
 
   @Field(() => [User])
-  @arrayProp({ itemsRef: User, index: true })
+  @arrayProp({ itemsRef: User })
   following: Ref<User>[];
 
   @Field(() => [User])
-  @arrayProp({ itemsRef: User, index: true })
+  @arrayProp({ itemsRef: User })
   followers: Ref<User>[];
 
   @Field(() => [Post])
   posts: [Post];
 
   @Field()
-  @prop({ default: '/profile/noImage.jpg' })
+  @prop({ default: "/profile/noImage.jpg" })
   displayImage: string;
 
   @Field()
-  @prop({ default: '' })
+  @prop({ default: "" })
   coverImage: string;
 
   @Field()
@@ -98,5 +98,5 @@ export class User extends Typegoose {
 }
 
 export const UserModel = new User().getModelForClass(User, {
-  schemaOptions: { collection: 'users' },
+  schemaOptions: { collection: "users" },
 });
