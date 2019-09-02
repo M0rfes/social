@@ -17,7 +17,7 @@ const Input: FC<Prop> = ({ type, label, error, field, children }) => {
           required
           id={label}
           className={`block form-input mt-2 focus:outline-none w-full ${error}`}
-          autoComplete="current-password"
+          autoComplete="current-password "
           {...field}
         />
         {children}
