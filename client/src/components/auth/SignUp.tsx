@@ -9,6 +9,7 @@ import { useMutation } from "@apollo/react-hooks";
 import "./SignIn.css";
 import { SIGN_UP } from "../../mutations/index";
 import Errors from "../utils/Errors";
+import Input from "./Input";
 
 enum Gender {
   male = "male",
@@ -91,21 +92,14 @@ const SignIn: FC<FormikProps<FormValues> & RouteComponentProps> = props => {
                 ? "border border-solid border-red-600 text-red-600 bg-red-100"
                 : "";
             return (
-              <>
-                <label htmlFor="displayName" className="block mt-4">
-                  Display Name
-                </label>
-                <div>
-                  <input
-                    type="text"
-                    required
-                    id="displayName"
-                    className={`block form-input mt-2  w-full ${error}`}
-                    {...field}
-                  />
-                  {error && <Errors>{form.errors.displayName}</Errors>}
-                </div>
-              </>
+              <Input
+                type="text"
+                label="Display Name"
+                field={field}
+                error={error}
+              >
+                {error && <Errors>{form.errors.displayName}</Errors>}
+              </Input>
             );
           }}
         />
@@ -118,21 +112,9 @@ const SignIn: FC<FormikProps<FormValues> & RouteComponentProps> = props => {
                 ? "border border-solid border-red-600 text-red-600 bg-red-100"
                 : "";
             return (
-              <>
-                <label htmlFor="firstName" className="block mt-4">
-                  First Name
-                </label>
-                <div>
-                  <input
-                    type="text"
-                    required
-                    id="firstName"
-                    className={`block form-input mt-2  w-full ${error}`}
-                    {...field}
-                  />
-                  {error && <Errors>{form.errors.firstName}</Errors>}
-                </div>
-              </>
+              <Input type="text" label="First Name" error={error} field={field}>
+                {error && <Errors>{form.errors.firstName}</Errors>}
+              </Input>
             );
           }}
         />
@@ -145,21 +127,9 @@ const SignIn: FC<FormikProps<FormValues> & RouteComponentProps> = props => {
                 ? "border border-solid border-red-600 text-red-600 bg-red-100"
                 : "";
             return (
-              <>
-                <label htmlFor="lastName" className="block mt-4">
-                  Last Name
-                </label>
-                <div>
-                  <input
-                    type="text"
-                    required
-                    id="lastName"
-                    className={`block form-input mt-2  w-full ${error}`}
-                    {...field}
-                  />
-                  {error && <Errors>{form.errors.lastName}</Errors>}
-                </div>
-              </>
+              <Input type="text" label="Last Name" error={error} field={field}>
+                {error && <Errors>{form.errors.lastName}</Errors>}
+              </Input>
             );
           }}
         />
@@ -172,24 +142,9 @@ const SignIn: FC<FormikProps<FormValues> & RouteComponentProps> = props => {
                 ? "border border-solid border-red-600 text-red-600 bg-red-100"
                 : "";
             return (
-              <>
-                <label htmlFor="userEmail" className="block mt-4">
-                  Email
-                </label>
-                <div>
-                  <input
-                    type="email"
-                    required
-                    name="email"
-                    id="userEmail"
-                    className={`block form-input mt-2  w-full ${error}`}
-                    {...field}
-                  />
-                  {form.touched.email && form.errors.email && (
-                    <Errors>{form.errors.email}</Errors>
-                  )}
-                </div>
-              </>
+              <Input type="email" label="Email" error={error} field={field}>
+                {error && <Errors>{form.errors.email}</Errors>}
+              </Input>
             );
           }}
         />
@@ -202,21 +157,14 @@ const SignIn: FC<FormikProps<FormValues> & RouteComponentProps> = props => {
                 ? "border border-solid border-red-600 text-red-600 bg-red-100"
                 : "";
             return (
-              <>
-                <label htmlFor="password" className="block mt-4">
-                  Password
-                </label>
-                <div>
-                  <input
-                    type="password"
-                    required
-                    id="password"
-                    className={`block form-input mt-2  w-full ${error}`}
-                    {...field}
-                  />
-                  {error && <Errors>{form.errors.password}</Errors>}
-                </div>
-              </>
+              <Input
+                type="password"
+                label="Password"
+                error={error}
+                field={field}
+              >
+                {error && <Errors>{form.errors.password}</Errors>}
+              </Input>
             );
           }}
         />
@@ -229,21 +177,14 @@ const SignIn: FC<FormikProps<FormValues> & RouteComponentProps> = props => {
                 : "";
 
             return (
-              <>
-                <label htmlFor="cPassword" className="block mt-4">
-                  Conform Password
-                </label>
-                <div>
-                  <input
-                    type="password"
-                    required
-                    id="cPassword"
-                    className={`block form-input mt-2 focus:outline-none w-full ${error}`}
-                    {...field}
-                  />
-                  {error && <Errors>{form.errors.cPassword}</Errors>}
-                </div>
-              </>
+              <Input
+                type="password"
+                label="Conform Password"
+                field={field}
+                error={error}
+              >
+                {error && <Errors>{form.errors.cPassword}</Errors>}
+              </Input>
             );
           }}
         />

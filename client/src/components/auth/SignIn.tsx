@@ -10,6 +10,7 @@ import "./SignIn.css";
 import { SIGN_IN } from "../../queries/index";
 import Errors from "../utils/Errors";
 import { AuthContext } from "../../context/AuthContext";
+import Input from "./Input";
 
 interface FormValues {
   email: string;
@@ -75,21 +76,9 @@ const SignIn: FC<FormikProps<FormValues> & RouteComponentProps> = props => {
                 ? "border border-solid border-red-600 text-red-600 bg-red-100"
                 : "";
             return (
-              <>
-                <label htmlFor="userEmail" className="block mt-4">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  required
-                  name="email"
-                  id="userEmail"
-                  className={`block form-input mt-2  w-full ${error}`}
-                  {...field}
-                  autoComplete="current-email"
-                />
+              <Input type="email" label="Email" error={error} field={field}>
                 {error && <Errors>{form.errors.email}</Errors>}
-              </>
+              </Input>
             );
           }}
         />
@@ -103,20 +92,14 @@ const SignIn: FC<FormikProps<FormValues> & RouteComponentProps> = props => {
                 : "";
 
             return (
-              <>
-                <label htmlFor="password" className="block mt-4">
-                  Password
-                </label>
-                <input
-                  type="password"
-                  required
-                  id="password"
-                  className={`block form-input mt-2 focus:outline-none w-full ${error}`}
-                  autoComplete="current-password"
-                  {...field}
-                />
+              <Input
+                type="password"
+                label="Password"
+                error={error}
+                field={field}
+              >
                 {error && <Errors>{form.errors.password}</Errors>}
-              </>
+              </Input>
             );
           }}
         />
