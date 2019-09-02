@@ -14,7 +14,7 @@ const Nav: FC<Prop> = props => {
         <div className="">
           <img
             src={user.displayImage}
-            className="rounded-full h-16 w-16 p-2 m-auto"
+            className="rounded-full h-16 w-16 p-2 m-auto object-cover"
           />
         </div>
       </nav>

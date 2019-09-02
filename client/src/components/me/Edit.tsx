@@ -3,7 +3,8 @@ import { FC } from "react";
 import { RouteComponentProps } from "react-router";
 import { IUser } from "../../interface/User";
 import Layout from "../Layout";
-
+import UseImagePreview from "../utils/hooks/UseImagePreview";
+import Image from "./Image";
 interface Props extends RouteComponentProps {
   user: IUser;
 }
@@ -11,25 +12,11 @@ interface Props extends RouteComponentProps {
 const Edit: FC<Props> = props => {
   const { user } = props;
   const [src, setSrc] = useState(user.displayImage);
+  const imagePreview = UseImagePreview(setSrc);
   return (
-    <Layout user={user}>
-      <form>
-        <div>
-          <img src={src} />
-          <input
-            type="file"
-            onChange={e => {
-              const reader = new FileReader();
-              reader.onload = e => {
-                const s = (e.target as any).result;
-                console.log((e.target as any).result);
-                setSrc((e.target as any).result);
-              };
-              reader.readAsDataURL(e.target.files![0]);
-              console.log();
-            }}
-          />
-        </div>
+    <Layout user={{ ...user, displayImage: src }}>
+      <form className="w-10/12 m-auto mt-4 ">
+        <Image src={src} imagePreview={imagePreview} />
       </form>
     </Layout>
   );
