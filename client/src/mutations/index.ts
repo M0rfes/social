@@ -7,3 +7,8 @@ export const SIGN_UP = gql`
     }
   }
 `;
+export const UPLOAD_PRO = gql`
+  mutation ADD_PRO($file: Upload!) {
+    addProfilePicture(picture: $file)
+  }
+`;
