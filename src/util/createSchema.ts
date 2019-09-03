@@ -1,28 +1,29 @@
-import { Query, Resolver, buildSchema } from 'type-graphql';
-import { UserResolver } from '../resolvers/user/user.resolver';
-import { CreateUserResolver } from '../resolvers/user/create.resolver';
-import { FindOneUserResolver } from '../resolvers/user/findOne.resolver';
-import { FindUserResolver } from '../resolvers/user/find.resolver';
-import { LoginResolver } from '../resolvers/user/login.resolver';
-import { DeleteUserResolver } from '../resolvers/user/delete.resolver';
-import { FollowResolver } from '../resolvers/user/Follow.resolver';
-import { UnFallowResolver } from '../resolvers/user/unFollow.resolver';
-import { UpdateUserResolver } from '../resolvers/user/update.resolver';
-import { CreatePostResolver } from '../resolvers/post/create.resolver';
-import { UpdatePostResolver } from '../resolvers/post/update.resolver';
-import { DeletePostResolver } from '../resolvers/post/delete.resolver';
-import { FindPostResolver } from '../resolvers/post/find.resolver';
-import { FindOnePostResolver } from '../resolvers/post/findOne.resolver';
-import { ProfilePictureResolver } from '../resolvers/user/profilePitcher.resolver';
-import { PostResolver } from '../resolvers/post/post.resolver';
-import { DoUnDoVote } from '../resolvers/post/doUndoVote.resolver';
-import { FavPostResolver } from '../resolvers/user/favPost.resolver';
+import { Query, Resolver, buildSchema } from "type-graphql";
+import { UserResolver } from "../resolvers/user/user.resolver";
+import { CreateUserResolver } from "../resolvers/user/create.resolver";
+import { FindOneUserResolver } from "../resolvers/user/findOne.resolver";
+import { FindUserResolver } from "../resolvers/user/find.resolver";
+import { LoginResolver } from "../resolvers/user/login.resolver";
+import { DeleteUserResolver } from "../resolvers/user/delete.resolver";
+import { FollowResolver } from "../resolvers/user/Follow.resolver";
+import { UnFallowResolver } from "../resolvers/user/unFollow.resolver";
+import { UpdateUserResolver } from "../resolvers/user/update.resolver";
+import { CreatePostResolver } from "../resolvers/post/create.resolver";
+import { UpdatePostResolver } from "../resolvers/post/update.resolver";
+import { DeletePostResolver } from "../resolvers/post/delete.resolver";
+import { FindPostResolver } from "../resolvers/post/find.resolver";
+import { FindOnePostResolver } from "../resolvers/post/findOne.resolver";
+import { ProfilePictureResolver } from "../resolvers/user/profilePitcher.resolver";
+import { PostResolver } from "../resolvers/post/post.resolver";
+import { DoUnDoVote } from "../resolvers/post/doUndoVote.resolver";
+import { FavPostResolver } from "../resolvers/user/favPost.resolver";
+import { MediaResolver } from "../resolvers/post/media.resolver";
 
 @Resolver()
 class HelloResolver {
   @Query(() => String)
   async helloWorld() {
-    return 'Hello World!';
+    return "Hello World!";
   }
 }
 
@@ -48,6 +49,7 @@ export const createSchema = () =>
       PostResolver,
       DoUnDoVote,
       FavPostResolver,
+      MediaResolver,
     ],
   });
 
