@@ -1,7 +1,7 @@
 import React from "react";
 import { FC } from "react";
 import { IUser } from "../interface/User";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { FaHome, FaHeart } from "react-icons/fa";
 type Prop = {
   user: IUser;
@@ -19,15 +19,15 @@ const Nav: FC<Prop> = props => {
         </div>
       </nav>
       <div className="flex justify-around mt-1 text-3xl">
-        <Link to="/" className="p-1">
+        <NavLink to="/" className="p-1">
           <FaHome />
-        </Link>
-        <Link to="/app" className="p-1">
+        </NavLink>
+        <NavLink to="/app" className="p-1">
           <FaHeart />
-        </Link>
-        <Link to="/me/edit" className="p-1">
+        </NavLink>
+        <NavLink to="/me/edit" className="p-1">
           <FaHome />
-        </Link>
+        </NavLink>
       </div>
     </div>
   );

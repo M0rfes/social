@@ -13,11 +13,8 @@ export class ProfilePictureResolver {
   @Mutation(() => String, { nullable: true })
   async addProfilePicture(
     @Arg("picture", () => GraphQLUpload)
-    {
-      mimetype,
+    { createReadStream, mimetype }: Upload,
 
-      createReadStream,
-    }: Upload,
     @Ctx() { req }: any,
   ): Promise<string | null> {
     const ext = mimetype.split("/")[1];

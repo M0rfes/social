@@ -1,5 +1,5 @@
 import React, { FC, useState, useEffect } from "react";
-import { useSpring, animated, config } from "react-spring";
+
 import { FaTerminal } from "react-icons/fa";
 import { Link, RouteComponentProps, Redirect } from "react-router-dom";
 import { withFormik, FormikProps, Field, FieldProps } from "formik";
@@ -10,6 +10,7 @@ import "./SignIn.css";
 import { SIGN_UP } from "../../mutations/index";
 import Errors from "../utils/Errors";
 import Input from "./Input";
+import AbsoluteWraper from "../utils/AbsoluteWraper";
 
 enum Gender {
   male = "male",
@@ -26,8 +27,8 @@ interface FormValues {
   cPassword?: string;
   gender?: Gender;
 }
-
-const SignIn: FC<FormikProps<FormValues> & RouteComponentProps> = props => {
+interface otherProps extends RouteComponentProps {}
+const SignIn: FC<FormikProps<FormValues> & otherProps> = props => {
   const { handleSubmit: HS, isValid, setErrors, values } = props;
   const [email, setEmail] = useState("");
   const [displayName, setDisplayName] = useState("");
@@ -36,15 +37,6 @@ const SignIn: FC<FormikProps<FormValues> & RouteComponentProps> = props => {
   const [password, setPassword] = useState("");
   const [sGender, setGender] = useState(values.gender);
   const genders = [Gender.male, Gender.female, Gender.unspecified];
-  const animation = useSpring({
-    from: {
-      transform: "translateX(-100vw)",
-    },
-    to: {
-      transform: "translate(0)",
-    },
-    config: config.wobbly,
-  });
   const [signIn, { data }] = useMutation(SIGN_UP);
 
   const handelSubmit = (e: any) => {
@@ -63,7 +55,7 @@ const SignIn: FC<FormikProps<FormValues> & RouteComponentProps> = props => {
   useEffect(() => {
     if (data) {
       if (data.createUser) {
-        props.history.push(`/${data.createUser.id}`);
+        props.history.push(`/`);
       } else {
         setErrors({
           email: "Email or Display Name already exist",
@@ -72,8 +64,9 @@ const SignIn: FC<FormikProps<FormValues> & RouteComponentProps> = props => {
       }
     }
   }, [data]);
+
   return (
-    <animated.div style={animation}>
+    <AbsoluteWraper>
       <div className="pt-6 flex  flex justify-center  w-full text-5xl text-blue-400 ">
         <FaTerminal />
       </div>
@@ -231,13 +224,13 @@ const SignIn: FC<FormikProps<FormValues> & RouteComponentProps> = props => {
       <div className="my-5 text-center">
         <Link to="/">Already a user Login? Signin</Link>
       </div>
-    </animated.div>
+    </AbsoluteWraper>
   );
 };
 
 // Seating up formik
 
-export default withFormik<{}, FormValues>({
+export default withFormik<otherProps, FormValues>({
   validateOnChange: true,
   validateOnBlur: true,
   validate(form, prop) {
@@ -277,4 +270,4 @@ export default withFormik<{}, FormValues>({
     };
   },
   handleSubmit(_) {},
-})(SignIn as any);
+})(SignIn);
